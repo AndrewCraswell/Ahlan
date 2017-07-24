@@ -26,7 +26,7 @@ More info on this can be found on the Ionic [Getting Started](https://ionicframe
 
 Issues have been disabled on this repo. If you do find an issue or have a question, consider posting it on the [Ionic Forum](https://forum.ionicframework.com/). If there is truly an error, follow our guidelines for [submitting an issue](https://ionicframework.com/submit-issue/) to the main Ionic repository.
 =======
-# OneRefuge App
+## OneRefuge App
 According to UNHCR there are around 5 Million Syrian Refugees in different parts of the world. Transitioning to a new world is always challenging and it becomes more cumbersome when you don’t have any other way to go. These people are coming from the war zone, most of them have seen their kin/friends dying in front of their eyes and now they are in a different country where they don’t know anyone. They could hardly understand the language people speak there, need to get adjusted to the new culture, climate etc and in some time they need to start making a living to pay their bills. With this hack, we want to help make this transition easier for them.
 
 We will be building a cross-platform Ionic mobile app to help guide refugees throughout the journey of integrating including benefits, legal documents, culture, language, and education. We're embracing the opportunity to connect refugees with resources and community of volunteers to empower success.
