@@ -1,27 +1,15 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var cleanCss = require('gulp-clean-css');
-var rename = require('gulp-rename');
+(function () {
+  'use strict';
 
-var paths = {
-  sass: ['./scss/**/*.scss']
-};
+  var gulp = require('gulp');
+  var requireDir = require('require-dir');
+  var runSequence = require('run-sequence').use(gulp);
 
-gulp.task('default', ['sass']);
+  // Import tasks from build folder
+  requireDir('www/build/');
 
-gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
-    .pipe(sass())
-    .on('error', sass.logError)
-    .pipe(gulp.dest('./www/css/'))
-    .pipe(cleanCss({
-      keepSpecialComments: 0
-    }))
-    .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('./www/css/'))
-    .on('end', done);
-});
-
-gulp.task('watch', ['sass'], function() {
-  gulp.watch(paths.sass, ['sass']);
-});
+  // Define the default sass task to silence Ionic warnings
+  gulp.task('sass', function callback() {
+    return runSequence('compile-sass', callback);
+  });
+})();

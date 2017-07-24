@@ -1,5 +1,12 @@
 {
   "name": "oneRefuge",
-  "app_id": "",
-  "type": "ionic1"
+  "app_id": "f100ca42",
+  "type": "ionic1",
+  "gulpStartupTasks": [
+    "build",
+    "watch"
+  ],
+  "watchPatterns": [
+    "scss/**/*"
+  ]
 }

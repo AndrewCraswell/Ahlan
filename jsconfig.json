@@ -1,0 +1,10 @@
+{
+  "include": [
+    "www/js/**/*.js"
+  ],
+  "exclude": [
+    "node_modules/",
+    "platforms/",
+    "plugins/"
+  ]
+}

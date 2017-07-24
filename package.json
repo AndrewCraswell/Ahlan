@@ -1,13 +1,65 @@
 {
-  "name": "oneRefuge",
-  "version": "0.0.1",
-  "description": "An Ionic project",
-  "devDependencies": {
-    "@ionic/cli-plugin-gulp": "1.0.2",
-    "@ionic/cli-plugin-ionic1": "2.0.1",
-    "gulp": "^3.5.6",
-    "gulp-clean-css": "^3.7.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-sass": "^3.1.0"
-  }
+    "name": "OneRefuge",
+    "version": "0.0.1",
+    "description": "Mobile application for OneRefuge.",
+    "devDependencies": {
+        "@ionic/cli-plugin-cordova": "1.4.1",
+        "@ionic/cli-plugin-gulp": "1.0.2",
+        "@ionic/cli-plugin-ionic1": "2.0.1",
+        "angular-cache": "^4.6.0",
+        "angular-mocks": "1.5.3",
+        "del": "3.0.0",
+        "gulp": "^3.5.6",
+        "gulp-clean-css": "^3.7.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-eslint": "4.0.0",
+        "gulp-htmlhint": "0.3.1",
+        "gulp-image": "2.10.0",
+        "gulp-order": "^1.1.1",
+        "gulp-plumber": "1.1.0",
+        "gulp-rename": "^1.2.0",
+        "gulp-sass": "^3.1.0",
+        "gulp-sourcemaps": "2.6.0",
+        "gulp-stylelint": "3.9.0",
+        "gulp-uglify": "^3.0.0",
+        "gulp-watch": "4.3.11",
+        "htmlhint-stylish": "1.0.3",
+        "jasmine-core": "2.5.2",
+        "karma": "1.7.0",
+        "karma-coverage": "1.1.1",
+        "karma-jasmine": "1.1.0",
+        "karma-phantomjs-launcher": "1.0.4",
+        "karma-trx-reporter": "0.2.9",
+        "pump": "^1.0.2",
+        "require-dir": "0.3.2",
+        "run-sequence": "2.0.0",
+        "vinyl-paths": "2.1.0"
+    },
+    "dependencies": {
+        "cordova-android": "^6.2.3",
+        "cordova-ios": "^4.4.0",
+        "cordova-plugin-console": "^1.0.5",
+        "cordova-plugin-device": "^1.1.4",
+        "cordova-plugin-splashscreen": "^4.0.3",
+        "cordova-plugin-statusbar": "^2.2.1",
+        "cordova-plugin-whitelist": "^1.3.1",
+        "ionic-plugin-keyboard": "^2.2.1"
+    },
+    "scripts": {
+        "test": "gulp test"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-console": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-whitelist": {},
+            "ionic-plugin-keyboard": {}
+        },
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    }
 }
