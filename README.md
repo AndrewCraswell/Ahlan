@@ -20,7 +20,7 @@ https://hack4humanity.visualstudio.com/_git/Hackathon
 
 
 ### Github Repository:
-https://github.com/OneRefuge/OneRefugeApp
+https://hack4humanity.visualstudio.com/Hackathon/_git/OneRefugeGithub
 
 ## Project Onboarding
 For information or help onboarding to the team, please contact Gulrez Khan (gulkh) or Andrew Craswell (andcra) for guidance.
