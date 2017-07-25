@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Ionic App Base
 ==============
 
@@ -52,4 +51,3 @@ https://hack4humanity.visualstudio.com/Hackathon/_git/OneRefugeGithub
 
 ## Project Onboarding
 For information or help onboarding to the team, please contact Gulrez Khan (gulkh) or Andrew Craswell (andcra) for guidance.
->>>>>>> 371f11846deedc32105f0fd9e586875e9e84819e
