@@ -6,6 +6,7 @@
         .constant('appConstants', Object.freeze({
             StateNames: {
                 APP: 'app',
+                HOME: 'app.home',
 
                 ERROR_UNEXPECTED: 'app.unexpected-error',
                 ERROR_404: '404',

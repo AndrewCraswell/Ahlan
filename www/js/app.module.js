@@ -9,7 +9,10 @@
       'app.services.data',
 
       // Pages
-      'app.pages.errors'
+      'app.pages.errors',
+
+      //localization
+      'pascalprecht.translate'
     ]);
 
 }());
