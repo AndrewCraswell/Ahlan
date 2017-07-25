@@ -6,3 +6,8 @@ platforms/
 plugins/
 www/css/
 **/bin/*
+
+Hackathon101/node_modules/
+Hackathon101/platforms/
+Hackathon101/plugins/
+Hackathon101/www/css
