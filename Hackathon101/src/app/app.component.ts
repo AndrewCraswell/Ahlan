@@ -7,9 +7,11 @@ import { CategoryPage } from '../pages/category/category';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { ContentUpdater } from '../services/contentUpdater';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [ContentUpdater]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -21,10 +23,11 @@ export class MyApp {
     public platform: Platform,
     public menu: MenuController,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    private contentUpdater: ContentUpdater
   ) {
     this.initializeApp();
-
+    this.contentUpdater.refreshContent();
   }
 
   initializeApp() {

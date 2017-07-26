@@ -10,6 +10,8 @@ import { SubCategoryPage } from '../pages/sub-category/sc-details';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { IonicStorageModule } from '@ionic/storage';
+import { HttpModule } from "@angular/http";
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 const cloudSettings: CloudSettings = {
@@ -28,7 +30,9 @@ const cloudSettings: CloudSettings = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    CloudModule.forRoot(cloudSettings)
+    IonicStorageModule.forRoot(),
+    CloudModule.forRoot(cloudSettings),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,6 +44,7 @@ const cloudSettings: CloudSettings = {
   providers: [
     StatusBar,
     SplashScreen,
+    IonicStorageModule,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
