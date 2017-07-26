@@ -4,34 +4,40 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { SubCategoryPage } from '../sub-category/sc-details';
 
+import { ContentProvider } from '../../services/contentProvider';
+import { Category } from "../../model/appContent";
+
 @Component({
   selector: 'category-list',
-  templateUrl: 'category.html'
+  templateUrl: 'category.html',
+  providers: [ContentProvider]
 })
 export class CategoryPage {
-  categories: string[];
+  tempCategories: string[];
   icons: string[];
-  items: Array<{title: string, note: string, icon: string, color: string, translation: string}>;
+  items: Array<{title: string, /*note: string, icon: string,*/ color: string, translation: string, category: Category}>;
   colors: string[];
   translations: string[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  categories: Category[];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private contentProvider: ContentProvider) {
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
     'american-football', 'boat', 'bluetooth', 'build'];
-    this.categories = ['Basics', 'Learn English', 'Employment', 'Education', 'Services'];
-    this.translations = ['أساسيات', 'تعلم الانجليزية', 'الوظيفة', 'التعليم', 'الخدمات']
-    this.colors = [ '#008272', '#DA3B01','#FFB900','#5C2D9E','#0078D7'];
 
     this.items = [];
-    for(let i = 0; i < this.categories.length; i++) {
+    contentProvider.loadAppContent().then(categories => {
+
+    for(let i = 0; i < categories.length; i++) {
       this.items.push({
-        title: this.categories[i],
-        note: '<category'+ i +' description>',
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)],
-        color: this.colors[i],
-        translation: this.translations[i]
-      });
-    }
+        title: categories[i].title['en-US'],
+        // note: '<category'+ i +' description>',
+        // icon: this.icons[Math.floor(Math.random() * this.icons.length)],
+        color: categories[i].color,
+        translation: categories[i].title['ar'],
+        category: categories[i]
+      })
+    }});
   }
 
   itemTapped(event, item) {
