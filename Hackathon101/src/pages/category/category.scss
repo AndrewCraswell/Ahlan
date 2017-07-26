@@ -1,8 +1,16 @@
 category-list {
+    .header{
+        .toolbar{
+            button{
+                color: #aaa;
+            }
+        }
+    }
+
     .categories {
 
         .category-item {
-            min-height:80px;
+            min-height:110px;
             text-align:center;
             margin:10px 0;
             p {

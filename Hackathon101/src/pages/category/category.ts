@@ -18,7 +18,7 @@ export class CategoryPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
     'american-football', 'boat', 'bluetooth', 'build'];
-    this.categories = ['Basic', 'Learn English', 'Employment', 'Education', 'Services'];
+    this.categories = ['Basics', 'Learn English', 'Employment', 'Education', 'Services'];
     this.translations = ['أساسيات', 'تعلم الانجليزية', 'الوظيفة', 'التعليم', 'الخدمات']
     this.colors = [ '#008272', '#DA3B01','#FFB900','#5C2D9E','#0078D7'];
 
