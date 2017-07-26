@@ -16,9 +16,23 @@ export class Article {
     public cardIds: string[] = new Array<string>();
 }
 
-export class Card {
+export abstract class Card {
     public id: string;
     public slug: string;
     public title: Map<string, string>;
     public color: string;
+    public template: string;
+
+    constructor(id: string, slug: string, title: Map<string, string>, template: string) {
+        this.id = id;
+        this.slug = slug;
+        this.title = title;
+        this.template = template;
+    }
+}
+
+export class CardInfoTemplateOnly extends Card {
+    constructor(id: string, slug: string, title: Map<string, string>, template: string) {
+        super(id, slug, title, template);
+    }
 }
