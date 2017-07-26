@@ -80,6 +80,8 @@ export class ContentProvider {
                     var foundCat = false;
                     for (let j = 0; j < numArts; j++) {
                         if (cat.articleIds[j] == artToLink.id) {
+                            artToLink.color = cat.color;
+                            artToLink.cards.forEach(c => { c.color = artToLink.color; });
                             cat.articles.push(artToLink);
                             foundCat = true;
                             break;
@@ -91,41 +93,20 @@ export class ContentProvider {
             }
 
             this.categories.sort((a, b) => {
-                return this.categorySortOrder(a.id) - this.categorySortOrder(b.id);
+                return this.categorySortOrder.indexOf(a.id) - this.categorySortOrder.indexOf(b.id);
             });
 
           return this.categories;
         });
     }
 
-    categorySortOrder(id: string): number {
-        if (id == '2pTwwcY4cYEyE6WymousaG') {
-            // at home
-            return 0;
-        }
-        if (id == '4Kpjj8p4Lm2Ue0eig0GkYe') {
-            // shopping
-            return 1;
-        }
-        if (id == 'Bs0Nh2qPZYwWUEOsKQUuG') {
-            // on the road
-            return 2;
-        }
-        if (id == '2qz5IBH4qM4G2yIwUMGWay') {
-            // conversion
-            return 3;
-        }
-        if (id == '4FfiKbFjg4ImqEeyyGsu48') {
-            // finance
-            return 4;
-        }
-        if (id == '4K8JUyNPI4A8oWS6kW4moY') {
-            // holidays
-            return 5;
-        }
-        if (id == '1EoR1dli0Yk88KKOUC0SCi') {
-            // holidays
-            return 6;
-        }
-    }
+    categorySortOrder = [
+        '2pTwwcY4cYEyE6WymousaG',
+        '4Kpjj8p4Lm2Ue0eig0GkYe',
+        'Bs0Nh2qPZYwWUEOsKQUuG',
+        '2qz5IBH4qM4G2yIwUMGWay',
+        '4FfiKbFjg4ImqEeyyGsu48',
+        '4K8JUyNPI4A8oWS6kW4moY',
+        '1EoR1dli0Yk88KKOUC0SCi'
+    ]
 }

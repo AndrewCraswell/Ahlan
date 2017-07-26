@@ -26,7 +26,7 @@ export class CategoryPage {
     'american-football', 'boat', 'bluetooth', 'build'];
 
     this.items = [];
-    contentProvider.loadAppContent().then(categories => {
+    this.contentProvider.loadAppContent().then(categories => {
 
     for(let i = 0; i < categories.length; i++) {
       this.items.push({
