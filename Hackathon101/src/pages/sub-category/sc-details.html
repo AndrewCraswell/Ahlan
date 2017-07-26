@@ -26,41 +26,23 @@
 
   <div padding>
     <ion-grid  class="subcategories">
-      <ion-row>
-        <ion-col col-6>
-          <button ion-item *ngFor="let item of items2" (click)="itemTapped($event, item)" class="subcategory-button">
-            <ion-icon name="{{item.icon}}" ></ion-icon>
-            <span>
-              {{item.title}}
-            </span>
-            <span>
-               {{item.translation}} 
-            </span>
-            <div class="item-note">
-              {{item.note}}
-            </div>
-          </button>
-        </ion-col>
-
-        <ion-col col-6>
-          <button ion-item *ngFor="let item of items1" (click)="itemTapped($event, item)" class="subcategory-button">
-            <ion-icon name="{{item.icon}}" style="text-align: center" ></ion-icon>
-            <span>
-              {{item.title}}
-            </span>
-            <span>
-              {{item.translation}}
-            </span>
-            <div class="item-note" >
-              {{item.note}}
-            </div>
+      <ion-row *ngFor="let itemRow of itemRows">
+        <ion-col col-6 *ngFor="let item of itemRow">
+          <button ion-item (click)="itemTapped($event, item)" class="subcategory-button">
+            <button >
+              <ion-icon name="{{item.icon}}" ></ion-icon>
+              <span>
+                {{item.title}}
+              </span>
+              <span>
+                {{item.translation}} 
+              </span>
+            </button>
           </button>
         </ion-col>
 
       </ion-row>
-      <!-- <ion-row>
-        <ion-col col-6>This column will take 6 columns</ion-col>
-      </ion-row> -->
+
     </ion-grid>
 
     <!-- <ion-list class="subcategories">
