@@ -36,3 +36,9 @@ export class CardInfoTemplateOnly extends Card {
         super(id, slug, title, template);
     }
 }
+
+export class ContentTypes {
+    public static readonly Category: string = 'category';
+    public static readonly Article: string = 'article';
+    public static readonly CardInfoTemplateOnly: string = 'cardInfoTemplateOnly';
+}

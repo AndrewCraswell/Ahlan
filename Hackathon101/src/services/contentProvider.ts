@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
-import { Category, Article, Card, CardInfoTemplateOnly } from "../model/appContent";
+import { Category, Article, Card, CardInfoTemplateOnly, ContentTypes } from "../model/appContent";
 
 @Injectable()
 export class ContentProvider {
@@ -19,7 +19,7 @@ export class ContentProvider {
                 let element = content.items[i];
                 let contentType: string = element.sys.contentType.sys.id;
                 let fields = element.fields;
-                if (contentType == "category") {
+                if (contentType == ContentTypes.Category) {
                     var cat = new Category();
                     cat.id = element.sys.id;
                     cat.slug = fields.categorySlug;
@@ -30,7 +30,7 @@ export class ContentProvider {
                     });
                     this.categories.push(cat);
                 }
-                else if (contentType == 'article') {
+                else if (contentType == ContentTypes.Article) {
                     var art = new Article();
                     art.id = element.sys.id;
                     art.slug = fields.categorySlug;
@@ -43,7 +43,7 @@ export class ContentProvider {
                     }
                     tempArts.push(art);
                 }
-                else if (contentType == 'cardInfoTemplateOnly') {
+                else if (contentType == ContentTypes.CardInfoTemplateOnly) {
                     var c = new CardInfoTemplateOnly(
                         element.sys.id,
                         fields.categorySlug,
