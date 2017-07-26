@@ -9,19 +9,27 @@ import { SubCategoryPage } from '../sub-category/sc-details';
   templateUrl: 'category.html'
 })
 export class CategoryPage {
+  categories: string[];
   icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
+  items: Array<{title: string, note: string, icon: string, color: string, translation: string}>;
+  colors: string[];
+  translations: string[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
     'american-football', 'boat', 'bluetooth', 'build'];
+    this.categories = ['Basic', 'Learn English', 'Employment', 'Education', 'Services'];
+    this.translations = ['أساسيات', 'تعلم الانجليزية', 'الوظيفة', 'التعليم', 'الخدمات']
+    this.colors = [ '#008272', '#DA3B01','#FFB900','#5C2D9E','#0078D7'];
 
     this.items = [];
-    for(let i = 1; i < 11; i++) {
+    for(let i = 0; i < this.categories.length; i++) {
       this.items.push({
-        title: 'Category ' + i,
+        title: this.categories[i],
         note: '<category'+ i +' description>',
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
+        icon: this.icons[Math.floor(Math.random() * this.icons.length)],
+        color: this.colors[i],
+        translation: this.translations[i]
       });
     }
   }

@@ -1,3 +1,20 @@
 sc-list {
+    .subcategories{
+        -webkit-column-count: 2;
+        
+        .subcategory-button{
+            background-color: lightgrey;
+            // margin: 9%;
+            height: 140px;
+            margin-bottom: 8%;
+            // width: 140px;
+        }
+    }
 
+    .sc-title{
+        .toolbar-title{
+            color:#fff;
+        }
+    }
 }
+

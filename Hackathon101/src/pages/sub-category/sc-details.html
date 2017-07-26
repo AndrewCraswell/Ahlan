@@ -1,20 +1,58 @@
-<ion-header>
-  <ion-navbar>
+<ion-header >
+  <ion-navbar >
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Welcome to {{selectedItem.title}}</ion-title>
+    <ion-title class="sc-title" [ngStyle]="{'background-color':selectedItem.color }"  >Welcome to {{selectedItem.title}}</ion-title>
+
+    <ion-buttons>
+      <button ion-button icon-only style="float:right;">
+        <ion-icon name="search" ></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+<ion-content padding id="page2" >
+  <div style="position:relative;overflow:hidden;padding-bottom:56.25%;height:0;" id="page2-video1">
+    <iframe src="https://www.youtube.com/embed/lTLTs2ZA2JQ?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen width="560" height="315" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+  </div>
+
+  <ion-grid  class="subcategories">
+    <ion-row>
+      <ion-col col-6>
+        <button ion-item *ngFor="let item of items2" (click)="itemTapped($event, item)" class="subcategory-button">
+          <ion-icon name="{{item.icon}}" item-left></ion-icon>
+          {{item.title}}
+          <div class="item-note" item-right>
+            {{item.note}}
+          </div>
+        </button>
+      </ion-col>
+
+      <ion-col col-6>
+        <button ion-item *ngFor="let item of items1" (click)="itemTapped($event, item)" class="subcategory-button">
+          <ion-icon name="{{item.icon}}" item-left></ion-icon>
+          {{item.title}}
+          <div class="item-note" item-right>
+            {{item.note}}
+          </div>
+        </button>
+      </ion-col>
+
+    </ion-row>
+    <!-- <ion-row>
+      <ion-col col-6>This column will take 6 columns</ion-col>
+    </ion-row> -->
+  </ion-grid>
+
+  <!-- <ion-list class="subcategories">
+    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)" class="subcategory-button">
       <ion-icon name="{{item.icon}}" item-left></ion-icon>
       {{item.title}}
       <div class="item-note" item-right>
         {{item.note}}
       </div>
     </button>
-  </ion-list>
+  </ion-list> -->
 </ion-content>

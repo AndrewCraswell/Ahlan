@@ -1,3 +1,17 @@
 category-list {
+    .categories {
 
+        .category-item {
+            min-height:80px;
+            text-align:center;
+            margin:10px 0;
+            p {
+                color:#fff;
+            }
+
+            .item-inner{
+                border:0;
+            }
+        }
+    }
 }
