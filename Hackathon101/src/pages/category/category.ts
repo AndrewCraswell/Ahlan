@@ -45,4 +45,6 @@ export class CategoryPage {
       item: item
     });
   }
+  globeTapped(event, item) {
+  }
 }
