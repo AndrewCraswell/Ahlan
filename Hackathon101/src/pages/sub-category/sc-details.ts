@@ -11,7 +11,7 @@ import { Article } from "../../model/appContent";
 })
 export class SubCategoryPage {
   icons: string[];
-  itemRows: Array<Array<{title: string, note: string, icon: string, translation: string, article: Article}>>;
+  itemRows: Array<Array<{title: string, icon: string, translation: string, article: Article}>>;
   selectedItem: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -24,10 +24,9 @@ export class SubCategoryPage {
 
     let articles = this.selectedItem.category.articles;
     for(let i = 0; i < articles.length; i+=2) {
-      var nextRow = new Array<{title: string, note: string, icon: string, translation: string, article: Article}>();
+      var nextRow = new Array<{title: string, icon: string, translation: string, article: Article}>();
       nextRow.push({
           title: articles[i].title['en-US'],
-          note: '',
           icon: this.icons[i],
           translation: articles[i].title['ar'],
           article: articles[i]
@@ -35,7 +34,6 @@ export class SubCategoryPage {
       if (i + 1 < articles.length) {
           nextRow.push({
           title: articles[i+1].title['en-US'],
-          note: '',
           icon: this.icons[i+1],
           translation: articles[i+1].title['ar'],
           article: articles[i+1]
