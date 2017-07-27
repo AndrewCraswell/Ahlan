@@ -3,20 +3,21 @@ sc-list {
     .header{
         .toolbar{
             button{
-                color: #fff;
+                color: #FFFFFF;
             }
         }
     }
-
+    .article-wrapper{
+            background-color: #F8F6FB
+    }
     .subcategories{
         -webkit-column-count: 2;
-        
         .subcategory-button{
-            background-color: #dee0e2;
+            background-color: #FFFFFF;
             // margin: 9%;
-            height: 140px;
-            margin-bottom: 8%;
-            // width: 140px;
+            height: 145px;
+            margin-bottom: 2%;
+            //width: 145px;
 
             .label{
                 overflow: inherit;
@@ -25,16 +26,26 @@ sc-list {
             .item-inner{
                 padding-right: 0px;
                 background-image: none;
+                //background-color: #FFFFFF;
                 border: 0;
                 text-align:center;
                 span{
                     display: block;
+                }
+                .input-wrapper{
+                    button{
+                         background-color:transparent
+                    }
+                   
                 }
             }
         }
 
         .item{
             .item-icon{
+                background-color: #FFFFFF;
+                font-size: 50px;
+                margin-bottom: 8px;
                 display: block;
             }
         }
@@ -48,7 +59,7 @@ sc-list {
 
     .hero-banner{
         .scroll-content > div:first-child{
-            // background-color: red;
+            //background-color: red;
             padding: 15px;
         }
     }

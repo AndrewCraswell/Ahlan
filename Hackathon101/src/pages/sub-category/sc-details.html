@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div padding>
+  <div class="article-wrapper" padding>
     <ion-grid  class="subcategories">
       <ion-row *ngFor="let itemRow of itemRows">
         <ion-col col-6 *ngFor="let item of itemRow">
@@ -32,10 +32,10 @@
             <button >
               <ion-icon name="{{item.icon}}" ></ion-icon>
               <span>
-                {{item.title}}
-              </span>
-              <span>
                 {{item.translation}} 
+              </span>
+              <span> 
+                {{item.title}}
               </span>
             </button>
           </button>
