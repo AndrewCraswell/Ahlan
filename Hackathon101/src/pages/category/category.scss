@@ -1,6 +1,11 @@
 category-list {
     .header{
         .toolbar{
+            .bar-buttons:first-of-type{
+                -webkit-order:1;
+                -ms-flex-order:1; 
+                order:1;    
+            }
             button{
                 color: #aaa;
             }
