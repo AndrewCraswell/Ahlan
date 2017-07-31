@@ -47,7 +47,7 @@ export class SubCategoryPage {
 
   itemTapped(event, item) {
     this.navCtrl.push(ItemDetailsPage, {
-      topic: item.topic
+      item: item
     });
   }
 }
