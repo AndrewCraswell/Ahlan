@@ -75,4 +75,7 @@ export class ContentTypes {
     public static readonly Category: string = 'category';
     public static readonly Article: string = 'article';
     public static readonly CardInfoTemplateOnly: string = 'cardInfoTemplateOnly';
+    public static readonly CardInfoTemplateWithImg: string = 'cardInfoTemplateWithImg';
+    public static readonly CardDosDont: string = 'cardDosDont';
+    public static readonly CardDosDontList: string = 'cardDosDontList';
 }

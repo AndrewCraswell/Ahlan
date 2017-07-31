@@ -59,7 +59,7 @@ export class ContentProvider {
                         contentType);
                     tempCards.push(c);
                 }
-                else if (contentType == 'cardInfoTemplateWithImg') {
+                else if (contentType == ContentTypes.CardInfoTemplateWithImg) {
                     c = new CardInfoTemplateWithImg(
                         element.sys.id,
                         fields.slugInfoWithImg,
@@ -68,7 +68,7 @@ export class ContentProvider {
                         fields.mediaInfowithImg);   
                     tempCards.push(c);
                 }
-                else if (contentType == 'cardDosDont') {
+                else if (contentType == ContentTypes.CardDosDont) {
                     c = new CardDosDont(
                         element.sys.id,
                         fields.slugDosDont,
@@ -77,7 +77,7 @@ export class ContentProvider {
                         fields.mediaDosDont); 
                     tempCards.push(c);
                 }
-                else if (contentType == 'cardDosDontList') {
+                else if (contentType == ContentTypes.CardDosDontList) {
                     c = new CardDosDontList(
                         element.sys.id,
                         fields.slugDosDontList,
