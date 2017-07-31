@@ -26,18 +26,23 @@ export class CategoryPage {
     'american-football', 'boat', 'bluetooth', 'build'];
 
     this.items = [];
-    this.contentProvider.loadAppContent().then(categories => {
 
-    for(let i = 0; i < categories.length; i++) {
-      this.items.push({
-        title: categories[i].title['en-US'],
-        // note: '<category'+ i +' description>',
-        // icon: this.icons[Math.floor(Math.random() * this.icons.length)],
-        color: categories[i].color,
-        translation: categories[i].title['ar'],
-        category: categories[i]
-      })
-    }});
+    console.log("Preparing category view.");
+    this.contentProvider.loadAppContent().then(categories => {
+      console.log("Looking for content in category view.");
+      if (categories != null) {
+        for(let i = 0; i < categories.length; i++) {
+          this.items.push({
+            title: categories[i].title['en-US'],
+            // note: '<category'+ i +' description>',
+            // icon: this.icons[Math.floor(Math.random() * this.icons.length)],
+            color: categories[i].color,
+            translation: categories[i].title['ar'],
+            category: categories[i]
+          })
+        }
+      }
+    });
   }
 
   itemTapped(event, item) {

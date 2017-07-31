@@ -5,13 +5,20 @@ import { Category, Article, Card, CardInfoTemplateOnly, ContentTypes } from "../
 @Injectable()
 export class ContentProvider {
     categories: Array<Category>;
+    contentReady: boolean = false;
 
     constructor(private storage: Storage) { }
 
     loadAppContent(): Promise<Category[]> {
+        if (this.categories != null && this.contentReady) {
+            return new Promise<Category[]>(() => this.categories );
+        }
+
         this.categories = new Array<Category>();
 
          return this.storage.get('content').then(content => {
+            console.log("Parsing content in Provider.");
+            if (content == null) { return null; }
             var tempArts: Array<Article> = new Array<Article>();
             var tempCards: Array<Card> = new Array<Card>();
             let length: number = content.total;
@@ -97,7 +104,8 @@ export class ContentProvider {
                 return this.categorySortOrder.indexOf(a.id) - this.categorySortOrder.indexOf(b.id);
             });
 
-          return this.categories;
+            this.contentReady = true;
+            return this.categories;
         });
     }
 
