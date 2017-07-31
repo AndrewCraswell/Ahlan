@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
+import {  } from "../../model/appContent";
+import { SubCategoryPage } from '../sub-category/sc-details';
+import { ContentProvider } from '../../services/contentProvider';
+import { Category } from "../../model/appContent";
 
 @Component({
   selector: 'page-item-details',

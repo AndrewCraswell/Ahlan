@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
-import { Category, Article, Card, CardInfoTemplateOnly, ContentTypes } from "../model/appContent";
+import { Category, Article, Card, CardInfoTemplateOnly, CardInfoTemplateWithImg, CardDosDont, CardDosDontList, ContentTypes } from "../model/appContent";
 
 @Injectable()
 export class ContentProvider {
@@ -21,6 +21,7 @@ export class ContentProvider {
             if (content == null) { return null; }
             var tempArts: Array<Article> = new Array<Article>();
             var tempCards: Array<Card> = new Array<Card>();
+            var c = null;
             let length: number = content.total;
             for(let i = 0; i < length; i++) {
                 let element = content.items[i];
@@ -40,7 +41,7 @@ export class ContentProvider {
                 else if (contentType == ContentTypes.Article) {
                     var art = new Article();
                     art.id = element.sys.id;
-                    art.slug = fields.categorySlug;
+                    art.slug = fields.articleSlug;
                     art.title = fields.title;
                     let cardColl = fields.cardsCollection;
                     if (cardColl != null && cardColl['en-US'] != null) {
@@ -51,11 +52,42 @@ export class ContentProvider {
                     tempArts.push(art);
                 }
                 else if (contentType == ContentTypes.CardInfoTemplateOnly) {
-                    var c = new CardInfoTemplateOnly(
+                    c = new CardInfoTemplateOnly(
                         element.sys.id,
-                        fields.categorySlug,
-                        fields.title,
+                        fields.slugInfoOnly,
+                        fields.TitleInfoOnly,
                         contentType);
+                    tempCards.push(c);
+                }
+                else if (contentType == 'cardInfoTemplateWithImg') {
+                    c = new CardInfoTemplateWithImg(
+                        element.sys.id,
+                        fields.slugInfoWithImg,
+                        fields.titleInfoWithImg,
+                        contentType,
+                        fields.mediaInfowithImg);   
+                    tempCards.push(c);
+                }
+                else if (contentType == 'cardDosDont') {
+                    c = new CardDosDont(
+                        element.sys.id,
+                        fields.slugDosDont,
+                        fields.titleDosDont,
+                        contentType,
+                        fields.mediaDosDont); 
+                    tempCards.push(c);
+                }
+                else if (contentType == 'cardDosDontList') {
+                    c = new CardDosDontList(
+                        element.sys.id,
+                        fields.slugDosDontList,
+                        fields.titleDosDontList,
+                        contentType,
+                        fields.mediaDosDont,
+                        fields.dosListText,
+                        fields.dontListText,
+                        fields.dosListIcon,
+                        fields.dontListIcon);
                     tempCards.push(c);
                 }
             }
