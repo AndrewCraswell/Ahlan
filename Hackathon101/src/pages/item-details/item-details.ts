@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
-// import { SubCategoryPage } from '../sub-category/sc-details';
-// import { ContentProvider } from '../../services/contentProvider';
 import { Topic, Card } from "../../model/appContent";
-// import { CardInfoTemplateOnly } from "../../model/appContent";
-// import { CardInfoTemplateWithImg } from "../../model/appContent";
-// import { CardDosDont } from "../../model/appContent";
-// import { CardDosDontList } from "../../model/appContent";
 
 
 @Component({
