@@ -1,15 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
-import {  } from "../../model/appContent";
-import { SubCategoryPage } from '../sub-category/sc-details';
-import { ContentProvider } from '../../services/contentProvider';
-import { Category } from "../../model/appContent";
-import { Card } from "../../model/appContent";
-import { CardInfoTemplateOnly } from "../../model/appContent";
-import { CardInfoTemplateWithImg } from "../../model/appContent";
-import { CardDosDont } from "../../model/appContent";
-import { CardDosDontList } from "../../model/appContent";
+import { Topic, Card } from "../../model/appContent";
 
 
 @Component({
@@ -18,6 +10,7 @@ import { CardDosDontList } from "../../model/appContent";
 })
 export class ItemDetailsPage {
   selectedItem: any;
+  topic: Topic;
 
   urls_left: string[];
   urls_right: string[];
@@ -36,10 +29,10 @@ export class ItemDetailsPage {
     console.log('Navigated to Cards:: L2');
     console.log(this.selectedItem);
 
-    let cards = this.selectedItem.article.cards;
+    let cards = this.selectedItem.topic.cards;
 
     console.log("Trying to see what cards is: ")
-    console.log(this.selectedItem.article.cards);
+    console.log(this.selectedItem.topic.cards);
 
     this.types = ["CardDosDont","CardInfoTmpWithImg"]
     this.urls_left = ["assets/img/kitchen1.png","assets/img/kitchen3.png"];

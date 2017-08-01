@@ -1,32 +1,40 @@
-export class Category {
+export abstract class ContentBase {
     public id: string;
     public slug: string;
     public title: Map<string, string>;
-    public color: string;
-    public articles: Article[] = new Array<Article>();
-    public articleIds: string[] = new Array<string>();
-}
+    public childIds: string[] = new Array<string>();
+    public parent: ContentBase;
 
-export class Article {
-    public id: string;
-    public slug: string;
-    public title: Map<string, string>;
-    public color: string;
-    public cards: Card[] = new Array<Card>();
-    public cardIds: string[] = new Array<string>();
-}
-
-export abstract class Card {
-    public id: string;
-    public slug: string;
-    public title: Map<string, string>;
-    public color: string;
-    public template: string;
-
-    constructor(id: string, slug: string, title: Map<string, string>, template: string) {
+    constructor(id: string, slug: string, title: Map<string, string>) {
         this.id = id;
         this.slug = slug;
         this.title = title;
+    }
+}
+
+export class Category extends ContentBase {
+    public color: string;
+    public topics: Topic[] = new Array<Topic>();
+
+    constructor(id: string, slug: string, title: Map<string, string>, color: string) {
+        super(id, slug, title);
+        this.color = color;
+    }
+}
+
+export class Topic extends ContentBase {
+    public cards: Card[] = new Array<Card>();
+
+    constructor(id: string, slug: string, title: Map<string, string>) {
+        super(id, slug, title);
+    }
+}
+
+export abstract class Card extends ContentBase {
+    public template: string;
+
+    constructor(id: string, slug: string, title: Map<string, string>, template: string) {
+        super(id, slug, title);
         this.template = template;
     }
 }
@@ -69,4 +77,13 @@ export class CardDosDontList extends Card {
         this.dosListIcon=dosListIcon;
         this.dontListIcon=dontListIcon;
     }   
+}
+
+export class ContentTypes {
+    public static readonly Category: string = 'category';
+    public static readonly Topic: string = 'topic';
+    public static readonly CardInfoTemplateOnly: string = 'cardInfoTemplateOnly';
+    public static readonly CardInfoTemplateWithImg: string = 'cardInfoTemplateWithImg';
+    public static readonly CardDosDont: string = 'cardDosDont';
+    public static readonly CardDosDontList: string = 'cardDosDontList';
 }

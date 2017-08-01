@@ -1,18 +1,25 @@
 import { Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
-import { Category, Article, Card, CardInfoTemplateOnly, CardInfoTemplateWithImg, CardDosDont, CardDosDontList} from "../model/appContent";
+import { Category, Topic, Card, CardInfoTemplateOnly, CardInfoTemplateWithImg, CardDosDont, CardDosDontList, ContentTypes } from "../model/appContent";
 
 @Injectable()
 export class ContentProvider {
-        categories: Array<Category>;
-    
+    categories: Array<Category>;
+    contentReady: boolean = false;
+
     constructor(private storage: Storage) { }
 
     loadAppContent(): Promise<Category[]> {
+        if (this.categories != null && this.contentReady) {
+            return new Promise<Category[]>(() => this.categories );
+        }
+
         this.categories = new Array<Category>();
 
          return this.storage.get('content').then(content => {
-            var tempArts: Array<Article> = new Array<Article>();
+            console.log("Parsing content in Provider.");
+            if (content == null) { return null; }
+            var tempTops: Array<Topic> = new Array<Topic>();
             var tempCards: Array<Card> = new Array<Card>();
             var c = null;
             let length: number = content.total;
@@ -20,39 +27,44 @@ export class ContentProvider {
                 let element = content.items[i];
                 let contentType: string = element.sys.contentType.sys.id;
                 let fields = element.fields;
-                if (contentType == "category") {
-                    var cat = new Category();
-                    cat.id = element.sys.id;
-                    cat.slug = fields.categorySlug;
-                    cat.title = fields.title;
-                    cat.color = fields.color['en-US'];
-                    fields.articlesCollection['en-US'].forEach(a => {
-                        cat.articleIds.push(a.sys.id);
+                if (contentType == ContentTypes.Category) {
+                    var cat = new Category(
+                        element.sys.id,
+                        fields.categorySlug,
+                        fields.title,
+                        fields.color['en-US']);
+                    var topicsColl = fields.topicsCollection;
+                    if (topicsColl == null) { topicsColl = fields.articlesCollection; }
+                    topicsColl['en-US'].forEach(a => {
+                        cat.childIds.push(a.sys.id);
                     });
                     this.categories.push(cat);
                 }
-                else if (contentType == 'article') {
-                    var art = new Article();
-                    art.id = element.sys.id;
-                    art.slug = fields.articleSlug;
-                    art.title = fields.title;
+                else if (contentType == ContentTypes.Topic
+                || contentType == 'article') {
+                    var slug = fields.topicSlug;
+                    if (slug == null) { slug = fields.articleSlug; }
+                    var top = new Topic(
+                        element.sys.id,
+                        slug,
+                        fields.title);
                     let cardColl = fields.cardsCollection;
                     if (cardColl != null && cardColl['en-US'] != null) {
                         cardColl['en-US'].forEach(c => {
-                            art.cardIds.push(c.sys.id);
+                            top.childIds.push(c.sys.id);
                         });
                     }
-                    tempArts.push(art);
+                    tempTops.push(top);
                 }
-                else if (contentType == 'cardInfoTemplateOnly') {
-                   c = new CardInfoTemplateOnly(
+                else if (contentType == ContentTypes.CardInfoTemplateOnly) {
+                    c = new CardInfoTemplateOnly(
                         element.sys.id,
                         fields.slugInfoOnly,
                         fields.TitleInfoOnly,
                         contentType);
                     tempCards.push(c);
                 }
-                else if (contentType == 'cardInfoTemplateWithImg') {
+                else if (contentType == ContentTypes.CardInfoTemplateWithImg) {
                     c = new CardInfoTemplateWithImg(
                         element.sys.id,
                         fields.slugInfoWithImg,
@@ -61,7 +73,7 @@ export class ContentProvider {
                         fields.mediaInfowithImg);   
                     tempCards.push(c);
                 }
-                else if (contentType == 'cardDosDont') {
+                else if (contentType == ContentTypes.CardDosDont) {
                     c = new CardDosDont(
                         element.sys.id,
                         fields.slugDosDont,
@@ -70,7 +82,7 @@ export class ContentProvider {
                         fields.mediaDosDont); 
                     tempCards.push(c);
                 }
-                else if (contentType == 'cardDosDontList') {
+                else if (contentType == ContentTypes.CardDosDontList) {
                     c = new CardDosDontList(
                         element.sys.id,
                         fields.slugDosDontList,
@@ -87,49 +99,50 @@ export class ContentProvider {
 
             var cardToLink = tempCards.pop();
             while (cardToLink != null) {
-                let length = tempArts.length
+                let length = tempTops.length
                 for (let i = 0; i < length; i++) {
-                    let art = tempArts[i];
-                    let numCards = art.cardIds.length;
-                    var foundArt = false;
+                    let top = tempTops[i];
+                    let numCards = top.childIds.length;
+                    var foundTop = false;
                     for (let j = 0; j < numCards; j++) {
-                        if (art.cardIds[j] == cardToLink.id) {
-                            art.cards.push(cardToLink);
-                            foundArt = true;
+                        if (top.childIds[j] == cardToLink.id) {
+                            top.cards.push(cardToLink);
+                            cardToLink.parent = top;
+                            foundTop = true;
                             break;
                         }
                     }
-                    if (foundArt) break;
+                    if (foundTop) break;
                 }
                 cardToLink = tempCards.pop();
             }
 
-            var artToLink = tempArts.pop();
-            while (artToLink != null) {
+            var topToLink = tempTops.pop();
+            while (topToLink != null) {
                 let length = this.categories.length
                 for (let i = 0; i < length; i++) {
                     let cat = this.categories[i];
-                    let numArts = cat.articleIds.length;
+                    let numArts = cat.childIds.length;
                     var foundCat = false;
                     for (let j = 0; j < numArts; j++) {
-                        if (cat.articleIds[j] == artToLink.id) {
-                            artToLink.color = cat.color;
-                            artToLink.cards.forEach(c => { c.color = artToLink.color; });
-                            cat.articles.push(artToLink);
+                        if (cat.childIds[j] == topToLink.id) {
+                            cat.topics.push(topToLink);
+                            topToLink.parent = cat;
                             foundCat = true;
                             break;
                         }
                     }
                     if (foundCat) break;
                 }
-                artToLink = tempArts.pop();
+                topToLink = tempTops.pop();
             }
 
             this.categories.sort((a, b) => {
                 return this.categorySortOrder.indexOf(a.id) - this.categorySortOrder.indexOf(b.id);
             });
 
-          return this.categories;
+            this.contentReady = true;
+            return this.categories;
         });
     }
 
