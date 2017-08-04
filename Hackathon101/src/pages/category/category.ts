@@ -22,9 +22,6 @@ export class CategoryPage {
   categories: Category[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private contentProvider: ContentProvider) {
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
     this.items = [];
 
     console.log("Preparing category view.");
@@ -33,11 +30,9 @@ export class CategoryPage {
       if (categories != null) {
         for(let i = 0; i < categories.length; i++) {
           this.items.push({
-            title: categories[i].title['en-US'],
-            // note: '<category'+ i +' description>',
-            // icon: this.icons[Math.floor(Math.random() * this.icons.length)],
+            title: categories[i].title['ar'],
             color: categories[i].color,
-            translation: categories[i].title['ar'],
+            translation: categories[i].title['en-US'],
             category: categories[i]
           })
         }

@@ -20,6 +20,7 @@ sc-list {
 
             .label{
                 overflow: inherit;
+                white-space: normal;
             }
 
             .item-inner{
@@ -27,6 +28,8 @@ sc-list {
                 background-image: none;
                 border: 0;
                 text-align:center;
+                font-size: 1.3em;
+                white-space: normal;
                 span{
                     display: block;
                 }

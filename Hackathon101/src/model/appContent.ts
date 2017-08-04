@@ -24,6 +24,7 @@ export class Category extends ContentBase {
 
 export class Topic extends ContentBase {
     public cards: Card[] = new Array<Card>();
+    public icon: string;
 
     constructor(id: string, slug: string, title: Map<string, string>) {
         super(id, slug, title);

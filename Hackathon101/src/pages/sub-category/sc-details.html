@@ -4,9 +4,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title class="sc-title" [ngStyle]="{'background-color':selectedItem.color }"  > 
-      {{selectedItem.translation}}
-      <br>
       {{selectedItem.title}}
+      <br>
+      {{selectedItem.translation}}
     </ion-title>
 
     <ion-buttons>
@@ -29,15 +29,13 @@
       <ion-row *ngFor="let itemRow of itemRows">
         <ion-col col-6 *ngFor="let item of itemRow">
           <button ion-item (click)="itemTapped($event, item)" class="subcategory-button">
-            <button >
-              <ion-icon name="{{item.icon}}" ></ion-icon>
-              <span>
-                {{item.title}}
-              </span>
-              <span>
-                {{item.translation}} 
-              </span>
-            </button>
+            <i class="fa {{item.icon}} fa-2x"></i>
+            <span>
+              {{item.title}}
+            </span>
+            <span>
+              {{item.translation}} 
+            </span>
           </button>
         </ion-col>
 

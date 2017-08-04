@@ -48,6 +48,8 @@ export class ContentProvider {
                         element.sys.id,
                         slug,
                         fields.title);
+                    let icon = fields.iconClass;
+                    if (icon != null && icon['en-US'] != null) { top.icon = icon['en-US']; }
                     let cardColl = fields.cardsCollection;
                     if (cardColl != null && cardColl['en-US'] != null) {
                         cardColl['en-US'].forEach(c => {
