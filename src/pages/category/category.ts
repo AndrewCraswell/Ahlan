@@ -28,12 +28,19 @@ export class CategoryPage {
       this.assignContent(categories);
     });
 
+    this.refreshContent();
+
+  }
+
+  refreshContent(refresher = null) {
     this.contentProvider.getUpdatedContent().then(categories => {
       console.log("Got new content in category view.");
       this.items = [];
       this.assignContent(categories);
-    })
-
+      if (refresher != null) {
+        refresher.complete();
+      }
+    });
   }
 
   assignContent(categories: Category[]) {

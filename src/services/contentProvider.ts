@@ -18,6 +18,13 @@ export class ContentProvider {
         return this.updateContent();
     }
 
+    // Utility function for testing
+    clearLocalContent() {
+        return this.storage.set('content', null).then(() => {
+            return null;
+        });
+    }
+
     getUpdatedContent(): Promise<Category[]> {
         return this.contentUpdater.refreshContent().then(() =>
             this.updateContent()

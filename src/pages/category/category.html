@@ -21,6 +21,10 @@
 </ion-header>
 
 <ion-content padding id="page1">
+  <ion-refresher (ionRefresh)="refreshContent($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list class="categories">
     <button ion-item *ngFor="let item of items" class="category-item" (click)="itemTapped($event, item)"  [ngStyle]="{'background-color':item.color }">
       <!-- style="background-color:purple;" -->
