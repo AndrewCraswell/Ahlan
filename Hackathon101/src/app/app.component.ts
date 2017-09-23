@@ -7,12 +7,8 @@ import { CategoryPage } from '../pages/category/category';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { ContentUpdater } from '../services/contentUpdater';
-import { ContentProvider } from '../services/contentProvider';
-
 @Component({
-  templateUrl: 'app.html',
-  providers: [ContentUpdater, ContentProvider]
+  templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -23,25 +19,18 @@ export class MyApp {
     public platform: Platform,
     public menu: MenuController,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen,
-    private contentUpdater: ContentUpdater,
-    private contentProvider: ContentProvider
+    public splashScreen: SplashScreen
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.contentUpdater.refreshContent().then(() =>
-      this.contentProvider.loadAppContent().then(() =>
-
-        this.platform.ready().then(() => {
-          // Okay, so the platform is ready and our plugins are available.
-          // Here you can do any higher level native things you might need.
-          this.statusBar.styleDefault();
-          this.splashScreen.hide();
-        })
-      )
-    );
+      this.platform.ready().then(() => {
+        // Okay, so the platform is ready and our plugins are available.
+        // Here you can do any higher level native things you might need.
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+      });
   }
 
   openPage(page) {

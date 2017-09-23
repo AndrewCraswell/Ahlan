@@ -14,6 +14,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HttpModule } from "@angular/http";
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
+import { ContentUpdater } from "../services/contentUpdater";
+
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': '99d3db46'
@@ -45,6 +47,7 @@ const cloudSettings: CloudSettings = {
     StatusBar,
     SplashScreen,
     IonicStorageModule,
+    ContentUpdater,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

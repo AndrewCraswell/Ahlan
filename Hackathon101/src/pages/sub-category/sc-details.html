@@ -29,7 +29,7 @@
       <ion-row *ngFor="let itemRow of itemRows">
         <ion-col col-6 *ngFor="let item of itemRow">
           <button ion-item (click)="itemTapped($event, item)" class="subcategory-button">
-            <i class="fa {{item.icon}} fa-2x"></i>
+            <i class="fa {{item.icon}} fa-lg"></i>
             <span>
               {{item.title}}
             </span>

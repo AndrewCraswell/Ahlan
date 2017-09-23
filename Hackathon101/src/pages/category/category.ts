@@ -19,25 +19,35 @@ export class CategoryPage {
   colors: string[];
   translations: string[];
 
-  categories: Category[];
-
   constructor(public navCtrl: NavController, public navParams: NavParams, private contentProvider: ContentProvider) {
     this.items = [];
 
     console.log("Preparing category view.");
-    this.contentProvider.loadAppContent().then(categories => {
-      console.log("Looking for content in category view.");
-      if (categories != null) {
-        for(let i = 0; i < categories.length; i++) {
-          this.items.push({
-            title: categories[i].title['ar'],
-            color: categories[i].color,
-            translation: categories[i].title['en-US'],
-            category: categories[i]
-          })
-        }
-      }
+    this.contentProvider.getLocalContent().then(categories => {
+      console.log("Got local content in category view.");
+      this.assignContent(categories);
     });
+
+    this.contentProvider.getUpdatedContent().then(categories => {
+      console.log("Got new content in category view.");
+      this.items = [];
+      this.assignContent(categories);
+    })
+
+  }
+
+  assignContent(categories: Category[]) {
+    if (categories != null) {
+      console.log("Adding updated content to view.");
+      for(let i = 0; i < categories.length; i++) {
+        this.items.push({
+          title: categories[i].title['ar'],
+          color: categories[i].color,
+          translation: categories[i].title['en-US'],
+          category: categories[i]
+        })
+      }
+    }
   }
 
   itemTapped(event, item) {
