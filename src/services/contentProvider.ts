@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
 import { ContentUpdater } from "./contentUpdater";
-import { Category, Topic, Card, CardInfoTemplateOnly, CardInfoTemplateWithImg, CardDosDont, CardDosDontList, ContentTypes } from "../model/appContent";
+import { Category, Topic, Card, CardTextBlock, CardImageTextBlock, CardExampleComparison,
+        CardRulesComparison, CardItemsExplanation, CardUnitComparison, CardMonth, DateBase,
+        GenericDate, SpecificDate, MediaItem, UnitComparison, Unit, ContentTypes } from "../model/appContent";
 
 @Injectable()
 export class ContentProvider {
@@ -44,91 +46,137 @@ export class ContentProvider {
         if (content == null) return null;
 
         var newContent = new Array<Category>();
-        var tempTops: Array<Topic> = new Array<Topic>();
-        var tempCards: Array<Card> = new Array<Card>();
-        var c = null;
+        var tempTopics = new Array<Topic>();
+        var tempCards = new Array<Card>();
+        var tempDates = new Array<DateBase>();
+        var tempMedia = new Array<MediaItem>();
+        var tempUnitPair = new Array<UnitComparison>();
+        var tempUnits = new Array<Unit>();
         let length: number = content.total;
         for(let i = 0; i < length; i++) {
             let element = content.items[i];
             let contentType: string = element.sys.contentType.sys.id;
             let fields = element.fields;
-            if (contentType == ContentTypes.Category) {
-                var cat = new Category(
-                    element.sys.id,
-                    fields.categorySlug,
-                    fields.title,
-                    fields.color['en-US']);
-                var topicsColl = fields.topicsCollection;
-                if (topicsColl == null) { topicsColl = fields.articlesCollection; }
-                topicsColl['en-US'].forEach(a => {
-                    cat.childIds.push(a.sys.id);
-                });
-                newContent.push(cat);
-            }
-            else if (contentType == ContentTypes.Topic
-            || contentType == 'article') {
-                var slug = fields.topicSlug;
-                if (slug == null) { slug = fields.articleSlug; }
-                var top = new Topic(
-                    element.sys.id,
-                    slug,
-                    fields.title);
-                let icon = fields.iconClass;
-                if (icon != null && icon['en-US'] != null) { top.icon = icon['en-US']; }
-                let cardColl = fields.cardsCollection;
-                if (cardColl != null && cardColl['en-US'] != null) {
-                    cardColl['en-US'].forEach(c => {
-                        top.childIds.push(c.sys.id);
-                    });
-                }
-                tempTops.push(top);
-            }
-            else if (contentType == ContentTypes.CardInfoTemplateOnly) {
-                c = new CardInfoTemplateOnly(
-                    element.sys.id,
-                    fields.slugInfoOnly,
-                    fields.TitleInfoOnly,
-                    contentType);
-                tempCards.push(c);
-            }
-            else if (contentType == ContentTypes.CardInfoTemplateWithImg) {
-                c = new CardInfoTemplateWithImg(
-                    element.sys.id,
-                    fields.slugInfoWithImg,
-                    fields.titleInfoWithImg,
-                    contentType,
-                    fields.mediaInfowithImg);   
-                tempCards.push(c);
-            }
-            else if (contentType == ContentTypes.CardDosDont) {
-                c = new CardDosDont(
-                    element.sys.id,
-                    fields.slugDosDont,
-                    fields.titleDosDont,
-                    contentType,
-                    fields.mediaDosDont); 
-                tempCards.push(c);
-            }
-            else if (contentType == ContentTypes.CardDosDontList) {
-                c = new CardDosDontList(
-                    element.sys.id,
-                    fields.slugDosDontList,
-                    fields.titleDosDontList,
-                    contentType,
-                    fields.mediaDosDont,
-                    fields.dosListText,
-                    fields.dontListText,
-                    fields.dosListIcon,
-                    fields.dontListIcon);
-                tempCards.push(c);
+            switch(contentType)
+            {
+                // L1
+                case ContentTypes.Category:
+                    var topicsColl = fields.topicsCollection;
+                    if (topicsColl == null) { topicsColl = fields.articlesCollection; }
+                    var cat = new Category(
+                        element.sys.id,
+                        fields.categorySlug,
+                        fields.title,
+                        fields.color['en-US'],
+                        this.getKeyIfNotNull(topicsColl, 'en-US'));
+                    newContent.push(cat);
+                    break;
+                // L2
+                case ContentTypes.Topic:
+                case 'article':
+                    var slug = fields.topicSlug;
+                    if (slug == null) { slug = fields.articleSlug; }
+                    var top = new Topic(
+                        element.sys.id,
+                        slug,
+                        fields.title,
+                        this.getKeyIfNotNull(fields.iconClass, 'en-US'),
+                        this.getKeyIfNotNull(fields.cardsCollection, 'en-US'));
+                        tempTopics.push(top);
+                    break;
+
+                // L3 Types (Cards)
+                case ContentTypes.CardTextBlock:
+                    tempCards.push(new CardTextBlock(
+                        element.sys.id,
+                        fields.description));
+                    break;
+                case ContentTypes.CardImageTextBlock:
+                    tempCards.push(new CardImageTextBlock(
+                        element.sys.id,
+                        fields.description));
+                    break;
+                case ContentTypes.CardExampleComparison:
+                    tempCards.push(new CardExampleComparison(
+                        element.sys.id,
+                        fields.description));
+                        // add images
+                    break;
+                case ContentTypes.CardRulesComparison:
+                    tempCards.push(new CardRulesComparison(
+                        element.sys.id,
+                        fields.title,
+                        this.getKeyIfNotNull(fields.dosList, 'en-US'),
+                        this.getKeyIfNotNull(fields.dontsList, 'en-US')));
+                    break;
+                case ContentTypes.CardItemsExplanation:
+                    tempCards.push(new CardItemsExplanation(
+                        element.sys.id,
+                        fields.title,
+                        this.getKeyIfNotNull(fields.itemsList, 'en-US')));
+                    break;
+                case ContentTypes.CardUnitComparison:
+                    tempCards.push(new CardUnitComparison(
+                        element.sys.id,
+                        fields.description,
+                        this.getKeyIfNotNull(fields.unitList, 'en-US')));
+                    break;
+                case ContentTypes.CardMonth:
+                    tempCards.push(new CardMonth(
+                        element.sys.id,
+                        fields.month,
+                        this.getKeyIfNotNull(fields.datesList, 'en-US')));
+                    break;
+
+                // Supporting content (children of L3)
+                case ContentTypes.GenericDate:
+                    tempDates.push(new GenericDate(
+                        element.sys.id,
+                        fields.title,
+                        fields.weekOfMonth,
+                        fields.dayOfWeek));
+                    break;
+                case ContentTypes.SpecificDate:
+                    tempDates.push(new SpecificDate(
+                        element.sys.id,
+                        fields.title,
+                        fields.dayOfMonth));
+                    break;
+                case ContentTypes.MediaItem:
+                    tempMedia.push(new MediaItem(
+                        element.sys.id,
+                        fields.itemText,
+                        fields.iconClass,
+                        fields.iconImage));
+                    break;
+                case ContentTypes.UnitComparison:
+                    tempUnitPair.push(new UnitComparison(
+                        element.sys.id,
+                        fields.title,
+                        fields.leftUnit,
+                        fields.rightUnit,
+                        'en-US'));
+                    break;
+                case ContentTypes.Unit:
+                    tempUnits.push(new Unit(
+                        element.sys.id,
+                        fields.title,
+                        fields.name,
+                        fields.value));
+                    break;
             }
         }
 
+        console.log("Got Categories, Topics, Cards, Dates, Media, UnitPairs, Units:",
+            newContent.length, tempTopics.length, tempCards.length,
+            tempDates.length, tempMedia.length, tempUnitPair.length, tempUnits.length);
+
+        // Loop through all Card content and link each to the Topic that owns it
         var cardToLink = tempCards.pop();
         while (cardToLink != null) {
-            let length = tempTops.length
+            let length = tempTopics.length
             for (let i = 0; i < length; i++) {
-                let top = tempTops[i];
+                let top = tempTopics[i];
                 let numCards = top.childIds.length;
                 var foundTop = false;
                 for (let j = 0; j < numCards; j++) {
@@ -144,7 +192,8 @@ export class ContentProvider {
             cardToLink = tempCards.pop();
         }
 
-        var topToLink = tempTops.pop();
+        // Loop through all Topic content and link each to the Category that owns it
+        var topToLink = tempTopics.pop();
         while (topToLink != null) {
             let length = newContent.length
             for (let i = 0; i < length; i++) {
@@ -161,7 +210,7 @@ export class ContentProvider {
                 }
                 if (foundCat) break;
             }
-            topToLink = tempTops.pop();
+            topToLink = tempTopics.pop();
         }
 
         newContent.sort((a, b) => {
@@ -170,6 +219,10 @@ export class ContentProvider {
 
         this.contentReady = true;
         return newContent;
+    }
+
+    getKeyIfNotNull(map: Map<string, any>, key: string) {
+        return map != null ? map[key] : null;
     }
 
     categorySortOrder = [

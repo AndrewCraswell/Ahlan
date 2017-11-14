@@ -19,13 +19,22 @@ export class CategoryPage {
   colors: string[];
   translations: string[];
 
+  cloudUpdated: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private contentProvider: ContentProvider) {
     this.items = [];
+    this.cloudUpdated = false;
 
     console.log("Preparing category view.");
     this.contentProvider.getLocalContent().then(categories => {
       console.log("Got local content in category view.");
-      this.assignContent(categories);
+      // Make sure the call to refreshContent below didn't finish before we get here
+      if (!this.cloudUpdated) {
+        this.assignContent(categories);
+      }
+      else {
+        console.log("NOT finishing update from local cache - already applied latest update from cloud.");
+      }
     });
 
     this.refreshContent();
@@ -37,6 +46,7 @@ export class CategoryPage {
       console.log("Got new content in category view.");
       this.items = [];
       this.assignContent(categories);
+      this.cloudUpdated = true;
       if (refresher != null) {
         refresher.complete();
       }
