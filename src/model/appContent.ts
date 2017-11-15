@@ -78,8 +78,8 @@ export class CardExampleComparison extends Card {
 export class CardRulesComparison extends Card {
     // Uses 'Title'
     public image: Image;
-    public dos: MediaItem[];
-    public donts: MediaItem[];
+    public dos: MediaItem[] = new Array<MediaItem>();
+    public donts: MediaItem[] = new Array<MediaItem>();
     public doIds: string[] = new Array<string>();
     public dontIds: string[] = new Array<string>();
     constructor(id: string, title: Map<string, string>, dosList: any[], dontsList: any[]) {
@@ -87,35 +87,54 @@ export class CardRulesComparison extends Card {
         this.populateChildIds(dosList, this.doIds);
         this.populateChildIds(dontsList, this.dontIds);
     }
+
+    findMediaChildren(media: MediaItem[]) {
+        media.forEach(m => {
+            if (this.doIds.findIndex(i => i == m.id) >= 0) this.dos.push(m)
+            if (this.dontIds.findIndex(i => i == m.id) >= 0) this.donts.push(m)
+        });
+    }
 }
 
 export class CardItemsExplanation extends Card {
     // Uses 'Description' and 'Title'
     public image: Image;
-    public items: MediaItem[];
+    public items: MediaItem[] = new Array<MediaItem>();
     constructor(id: string, title: Map<string, string>, itemList: any[]) {
         super(id, title);
         this.populateChildIds(itemList);
+    }
+
+    findMediaChildren(media: MediaItem[]) {
+        media.forEach(m => { if (this.childIds.findIndex(c => c == m.id) >= 0) this.items.push(m) });
     }
 }
 
 export class CardUnitComparison extends Card {
     // Uses 'Description'
     public image: string;
-    public units: UnitComparison[];
+    public units: UnitComparison[] = new Array<UnitComparison>();
     constructor(id: string, title: Map<string, string>, unitList: any[]) {
         super(id, title);
         this.populateChildIds(unitList);
+    }
+
+    findUnitChildren(unit: UnitComparison[]) {
+        unit.forEach(u => { if (this.childIds.findIndex(c => c == u.id) >= 0) this.units.push(u) });
     }
 }
 
 export class CardMonth extends Card {
     // Uses neither 'Description' nor 'Title'
     // Use Month for title
-    public dates: DateBase[]
+    public dates: DateBase[] = new Array<DateBase>();
     constructor(id: string, title: Map<string, string>, dateList: any[]) {
         super(id, title);
         this.populateChildIds(dateList);
+    }
+
+    findDateChildren(dates: DateBase[]) {
+        dates.forEach(d => { if (this.childIds.findIndex(c => c == d.id) >= 0) this.dates.push(d) });
     }
 }
 
@@ -173,7 +192,15 @@ export class UnitComparison extends ContentBase {
         this.leftId = this.extractUnitId(leftUnit, key);
         this.rightId = this.extractUnitId(rightUnit, key);
     }
+
     extractUnitId(unit, key) { return unit != null && unit[key] != null ? unit[key].sys.id : null; }
+
+    findUnitChildren(units: Unit[]) {
+        units.forEach(u => {
+            if (u.id == this.leftId) this.leftUnit = u;
+            else if (u.id == this.rightId) this.rightUnit = u;
+        });
+    }
 }
 
 export class Unit extends ContentBase {

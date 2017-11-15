@@ -171,10 +171,33 @@ export class ContentProvider {
             newContent.length, tempTopics.length, tempCards.length,
             tempDates.length, tempMedia.length, tempUnitPair.length, tempUnits.length);
 
+        // Link Units to the UnitComparisons that reference them
+        tempUnitPair.forEach(pair => {
+            pair.findUnitChildren(tempUnits);
+        });
+
+        // Link supporting content to their Cards
+        tempCards.forEach(card => {
+            switch (card.constructor.name) {
+                case CardRulesComparison.name:
+                    (card as CardRulesComparison).findMediaChildren(tempMedia);
+                    break;
+                case CardItemsExplanation.name:
+                    (card as CardItemsExplanation).findMediaChildren(tempMedia);
+                    break;
+                case CardUnitComparison.name:
+                    (card as CardUnitComparison).findUnitChildren(tempUnitPair);
+                    break;
+                case CardMonth.name:
+                    (card as CardMonth).findDateChildren(tempDates);
+                    break;
+            }
+        });
+
         // Loop through all Card content and link each to the Topic that owns it
         var cardToLink = tempCards.pop();
         while (cardToLink != null) {
-            let length = tempTopics.length
+            let length = tempTopics.length;
             for (let i = 0; i < length; i++) {
                 let top = tempTopics[i];
                 let numCards = top.childIds.length;
@@ -195,7 +218,7 @@ export class ContentProvider {
         // Loop through all Topic content and link each to the Category that owns it
         var topToLink = tempTopics.pop();
         while (topToLink != null) {
-            let length = newContent.length
+            let length = newContent.length;
             for (let i = 0; i < length; i++) {
                 let cat = newContent[i];
                 let numArts = cat.childIds.length;
