@@ -11,6 +11,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { IonicStorageModule } from '@ionic/storage';
+import { File } from '@ionic-native/file'
 import { HttpModule } from "@angular/http";
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
@@ -47,6 +48,7 @@ const cloudSettings: CloudSettings = {
     StatusBar,
     SplashScreen,
     IonicStorageModule,
+    File,
     ContentUpdater,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

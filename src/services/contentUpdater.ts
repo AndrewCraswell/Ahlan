@@ -24,4 +24,16 @@ export class ContentUpdater {
       });
   }
 
+  getImage(url: string): Promise<ArrayBuffer> {
+    return this.http.get(url).toPromise()
+      .then(response => {
+        if (response.ok) {
+          return response.arrayBuffer();
+        }
+        else {
+          return null;
+        }
+      });
+  }
+
 }

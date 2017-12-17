@@ -37,7 +37,16 @@ export class CategoryPage {
       }
     });
 
-    this.refreshContent();
+    this.contentProvider.getLastUpdateTime().then(time => {
+      let age = new Date().valueOf() - time.valueOf();
+      let oneDay = 24*60*60*1000;
+      console.log(`Stored content age: ${age}`);
+      if (age > oneDay) {
+        console.log("Stored content too old - updating from web.")
+        this.refreshContent();
+      }
+      else { console.log("NOT getting fresh content - stored content is new enough."); }
+    });
 
   }
 

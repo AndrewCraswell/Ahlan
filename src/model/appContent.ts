@@ -10,6 +10,8 @@ export abstract class ContentBase {
         this.slug = slug;
         this.title = title;
     }
+    
+    extractIdFromMap(content, key) { return content != null && content[key] != null ? content[key].sys.id : null; }
 
     populateChildIds(ids: any[], container: any[] = null) {
         if (ids != null) {
@@ -61,8 +63,13 @@ export class CardTextBlock extends Card {
 export class CardImageTextBlock extends Card {
     // Uses 'Description'
     public image: Image;
-    constructor(id: string, title: Map<string, string>) {
+    constructor(id: string, title: Map<string, string>, image: Map<string, any>) {
         super(id, title);
+        this.image = new Image(null, this.extractIdFromMap(image, 'en-US'));
+    }
+
+    findImage(images: Image[]) {
+        images.forEach(i => { if (i.id == this.image.id) this.image = i })
     }
 }
 
@@ -70,8 +77,17 @@ export class CardExampleComparison extends Card {
     // Uses 'Description'
     public image_positive: Image;
     public image_negative: Image;
-    constructor(id: string, title: Map<string, string>) {
+    constructor(id: string, title: Map<string, string>, imgPos: Map<string, any>, imgNeg: Map<string, any>) {
         super(id, title);
+        this.image_positive = new Image(null, this.extractIdFromMap(imgPos, 'en-US'));
+        this.image_negative = new Image(null, this.extractIdFromMap(imgNeg, 'en-US'));
+    }
+    
+    findImages(images: any[]) {
+        images.forEach(i => {
+            if (i.id == this.image_positive.id) this.image_positive = i;
+            if (i.id == this.image_negative.id) this.image_negative = i;
+        })
     }
 }
 
@@ -82,8 +98,9 @@ export class CardRulesComparison extends Card {
     public donts: MediaItem[] = new Array<MediaItem>();
     public doIds: string[] = new Array<string>();
     public dontIds: string[] = new Array<string>();
-    constructor(id: string, title: Map<string, string>, dosList: any[], dontsList: any[]) {
+    constructor(id: string, title: Map<string, string>, image: Map<string, any>, dosList: any[], dontsList: any[]) {
         super(id, title);
+        this.image = new Image(null, this.extractIdFromMap(image, 'en-US'));
         this.populateChildIds(dosList, this.doIds);
         this.populateChildIds(dontsList, this.dontIds);
     }
@@ -94,33 +111,47 @@ export class CardRulesComparison extends Card {
             if (this.dontIds.findIndex(i => i == m.id) >= 0) this.donts.push(m)
         });
     }
+    
+    findImage(images: any[]) {
+        images.forEach(i => { if (i.id == this.image.id) this.image = i })
+    }
 }
 
 export class CardItemsExplanation extends Card {
     // Uses 'Description' and 'Title'
     public image: Image;
     public items: MediaItem[] = new Array<MediaItem>();
-    constructor(id: string, title: Map<string, string>, itemList: any[]) {
+    constructor(id: string, title: Map<string, string>, image: Map<string, any>, itemList: any[]) {
         super(id, title);
+        this.image = new Image(null, this.extractIdFromMap(image, 'en-US'));
         this.populateChildIds(itemList);
     }
 
     findMediaChildren(media: MediaItem[]) {
         media.forEach(m => { if (this.childIds.findIndex(c => c == m.id) >= 0) this.items.push(m) });
     }
+    
+    findImage(images: any[]) {
+        images.forEach(i => { if (i.id == this.image.id) this.image = i })
+    }
 }
 
 export class CardUnitComparison extends Card {
     // Uses 'Description'
-    public image: string;
+    public image: Image;
     public units: UnitComparison[] = new Array<UnitComparison>();
-    constructor(id: string, title: Map<string, string>, unitList: any[]) {
+    constructor(id: string, title: Map<string, string>, image: Map<string, any>, unitList: any[]) {
         super(id, title);
+        this.image = new Image(null, this.extractIdFromMap(image, 'en-US'));
         this.populateChildIds(unitList);
     }
 
     findUnitChildren(unit: UnitComparison[]) {
         unit.forEach(u => { if (this.childIds.findIndex(c => c == u.id) >= 0) this.units.push(u) });
+    }
+    
+    findImage(images: any[]) {
+        images.forEach(i => { if (i.id == this.image.id) this.image = i })
     }
 }
 
@@ -140,11 +171,45 @@ export class CardMonth extends Card {
 
 // Other supporting Content types (children of Cards)
 
-export class Image {
-    public id: string;
-    public value: any;
-    constructor(id: string) {
-        this.id = id;
+export class Image extends ContentBase {
+    public data: Map<string, any>
+    public created: string;
+    public updated: string;
+    constructor(jsonData: any, id: string = null) {
+        if (jsonData != null) {
+            super(jsonData.sys.id, null, jsonData.fields.title);
+            this.data = jsonData.fields.file;
+            this.created = jsonData.sys.createdAt;
+            this.updated = jsonData.sys.updatedAt;
+       }
+       else {
+           this.id = id;
+       }
+    }
+
+    get url(): string { return this.data["en-US"].url; }
+
+    get type(): string { return this.data["en-US"].contentType.split("/")[1] }
+
+    get filename(): string { return this.id + "." + this.type; }
+
+    displayPath(file: boolean): string { return file ? `/${Image.fileDirectory}/${this.filename}` : this.url; }
+
+    static get fileDirectory(): string { return "images"}
+
+    static isImage(jsonData: any, locale: string): boolean {
+        if (jsonData != null &&
+            jsonData.fields != null &&
+            jsonData.fields.file != null &&
+            jsonData.fields.file[locale] != null &&
+            jsonData.fields.file[locale].contentType != null)
+        {
+            let type = jsonData.fields.file[locale].contentType.split("/")[0];
+            if (type != null) {
+                return type == "image";
+            }
+        }
+        return false;
     }
 }
 
@@ -173,11 +238,15 @@ export class GenericDate extends DateBase {
 export class MediaItem extends ContentBase {
     // Uses ItemText for title
     public iconClass: string;
-    public iconImage: string;
-    constructor(id: string, title: Map<string, string>, iconClass: string, iconImage: string) {
+    public iconImage: Image;
+    constructor(id: string, title: Map<string, string>, iconClass: string, iconImage: Map<string, any>) {
         super(id, null, title);
         this.iconClass = iconClass;
-        this.iconImage = iconImage;
+        this.iconImage = new Image(null, this.extractIdFromMap(iconImage, 'en-US'));
+    }
+    
+    findImage(images: any[]) {
+        images.forEach(i => { if (i.id == this.iconImage.id) this.iconImage = i })
     }
 }
 
@@ -187,7 +256,7 @@ export class UnitComparison extends ContentBase {
     public rightUnit: Unit;
     public leftId: string;
     public rightId: string;
-    constructor(id: string, title: Map<string, string>, leftUnit: string, rightUnit: string, key: string) {
+    constructor(id: string, title: Map<string, string>, leftUnit: Map<string, any>, rightUnit: Map<string, any>, key: string) {
         super(id, null, title);
         this.leftId = this.extractUnitId(leftUnit, key);
         this.rightId = this.extractUnitId(rightUnit, key);

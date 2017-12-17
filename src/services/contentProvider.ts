@@ -1,16 +1,18 @@
 import { Injectable } from "@angular/core";
+import { Platform } from "ionic-angular/platform/platform";
 import { Storage } from '@ionic/storage';
+import { File } from "@ionic-native/file";
 import { ContentUpdater } from "./contentUpdater";
 import { Category, Topic, Card, CardTextBlock, CardImageTextBlock, CardExampleComparison,
         CardRulesComparison, CardItemsExplanation, CardUnitComparison, CardMonth, DateBase,
-        GenericDate, SpecificDate, MediaItem, UnitComparison, Unit, ContentTypes } from "../model/appContent";
+        GenericDate, SpecificDate, MediaItem, UnitComparison, Unit, ContentTypes, Image } from "../model/appContent";
 
 @Injectable()
 export class ContentProvider {
     categories: Array<Category>;
     contentReady: boolean = false;
 
-    constructor(private storage: Storage, private contentUpdater: ContentUpdater) { }
+    constructor(private platform: Platform, private storage: Storage, private file: File, private contentUpdater: ContentUpdater) { }
 
     getLocalContent(): Promise<Category[]> {
         if (this.contentReady) {
@@ -28,9 +30,14 @@ export class ContentProvider {
     }
 
     getUpdatedContent(): Promise<Category[]> {
-        return this.contentUpdater.refreshContent().then(() =>
-            this.updateContent()
-        );
+        return this.contentUpdater.refreshContent().then(() => {
+            this.setLastUpdateTime(new Date());
+            return this.updateContent();
+        });
+    }
+
+    getLastUpdateTime(): Promise<Date> {
+        return this.storage.get('contentUpdated').then(time => time);
     }
 
     private updateContent(): Promise<Category[]> {
@@ -40,6 +47,10 @@ export class ContentProvider {
             this.contentReady = true;
             return this.categories;
         });
+    }
+
+    private setLastUpdateTime(time: Date): Promise<void> {
+        return this.storage.set('contentUpdated', time);
     }
 
     private parseJsonContent(content: any): Category[] {
@@ -94,18 +105,22 @@ export class ContentProvider {
                 case ContentTypes.CardImageTextBlock:
                     tempCards.push(new CardImageTextBlock(
                         element.sys.id,
-                        fields.description));
+                        fields.description,
+                        fields.image));
                     break;
                 case ContentTypes.CardExampleComparison:
                     tempCards.push(new CardExampleComparison(
                         element.sys.id,
-                        fields.description));
+                        fields.description,
+                        fields.correctImage,
+                        fields.wrongImage));
                         // add images
                     break;
                 case ContentTypes.CardRulesComparison:
                     tempCards.push(new CardRulesComparison(
                         element.sys.id,
                         fields.title,
+                        fields.mainImage,
                         this.getKeyIfNotNull(fields.dosList, 'en-US'),
                         this.getKeyIfNotNull(fields.dontsList, 'en-US')));
                     break;
@@ -113,12 +128,14 @@ export class ContentProvider {
                     tempCards.push(new CardItemsExplanation(
                         element.sys.id,
                         fields.title,
+                        fields.image,
                         this.getKeyIfNotNull(fields.itemsList, 'en-US')));
                     break;
                 case ContentTypes.CardUnitComparison:
                     tempCards.push(new CardUnitComparison(
                         element.sys.id,
                         fields.description,
+                        fields.image,
                         this.getKeyIfNotNull(fields.unitList, 'en-US')));
                     break;
                 case ContentTypes.CardMonth:
@@ -167,9 +184,27 @@ export class ContentProvider {
             }
         }
 
-        console.log("Got Categories, Topics, Cards, Dates, Media, UnitPairs, Units:",
-            newContent.length, tempTopics.length, tempCards.length,
-            tempDates.length, tempMedia.length, tempUnitPair.length, tempUnits.length);
+        // Save assets (such as images)
+        var tempImages: any[] = new Array<any>();
+        var imagesDownloaded = 0;
+        if (content.includes != null && content.includes.Asset != null) {
+            let assetCount = content.includes.Asset.length;
+            for (var i = 0; i < assetCount; i++) {
+                let a = content.includes.Asset[i];
+                if (Image.isImage(a, "en-US")) {
+                    console.log("Got one image!");
+                    let image = new Image(a);
+                    tempImages.push(image);
+                    this.downloadImage(image, () => {
+                        imagesDownloaded++;
+                        console.log(imagesDownloaded, " images downloaded.");
+                    });
+                }
+            }
+        }
+
+        console.log(`Got ${newContent.length} Categories, ${tempTopics.length} Topics, ${tempCards.length} Cards,`
+                    + ` ${tempDates.length} Dates, ${tempMedia.length} Media, ${tempUnitPair.length} UnitPairs, ${tempUnits.length} Units`);
 
         // Link Units to the UnitComparisons that reference them
         tempUnitPair.forEach(pair => {
@@ -177,16 +212,27 @@ export class ContentProvider {
         });
 
         // Link supporting content to their Cards
+        tempMedia.forEach(media => { media.findImage(tempImages) });
+
         tempCards.forEach(card => {
             switch (card.constructor.name) {
+                case CardImageTextBlock.name:
+                    (card as CardImageTextBlock).findImage(tempImages);
+                    break;
+                case CardExampleComparison.name:
+                    (card as CardExampleComparison).findImages(tempImages);
+                    break;
                 case CardRulesComparison.name:
                     (card as CardRulesComparison).findMediaChildren(tempMedia);
+                    (card as CardRulesComparison).findImage(tempImages);
                     break;
                 case CardItemsExplanation.name:
                     (card as CardItemsExplanation).findMediaChildren(tempMedia);
+                    (card as CardItemsExplanation).findImage(tempImages);
                     break;
                 case CardUnitComparison.name:
                     (card as CardUnitComparison).findUnitChildren(tempUnitPair);
+                    (card as CardUnitComparison).findImage(tempImages);
                     break;
                 case CardMonth.name:
                     (card as CardMonth).findDateChildren(tempDates);
@@ -246,6 +292,40 @@ export class ContentProvider {
 
     getKeyIfNotNull(map: Map<string, any>, key: string) {
         return map != null ? map[key] : null;
+    }
+
+    downloadImage(image: Image, next: () => void) {
+        let updateTimestamp = () => {
+            this.storage.set(image.id, image.updated);
+        }
+
+        this.storage.get(image.id).then(lastUpdate => {
+            if (lastUpdate == null || lastUpdate < image.updated) {
+                this.contentUpdater.getImage(image.url).then(data => {
+                    if (this.platform.is('cordova')) {
+                        let saveImage = () => {
+                            this.file.writeFile(this.file.dataDirectory + `/${Image.fileDirectory}`, image.filename, data)
+                                .then(_ => {
+                                    updateTimestamp();
+                                    next();
+                                });
+                        }
+
+                        this.file.checkDir(this.file.dataDirectory, Image.fileDirectory).then(_ => saveImage() )
+                        .catch(_ => {
+                            this.file.createDir(this.file.dataDirectory, Image.fileDirectory, false).then( _ => {
+                                this.file.writeFile(this.file.dataDirectory +`/${Image.fileDirectory}`, image.filename, data).then(_ => saveImage());
+                            });
+                        });
+                    }
+                    else {
+                        // Can't save image to file right now
+                        next();
+                    }
+                });
+                
+            }
+        });
     }
 
     categorySortOrder = [
