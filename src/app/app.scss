@@ -14,3 +14,31 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.scroll-bar-indicator {
+    display: none;
+}
+
+ion-app [padding],
+ion-app [padding] .scroll-content {
+    padding: 0 8px !important;
+}
+
+.scroll-content {
+    background-color: #f8f8f8;
+}
+
+.header {
+    &::after {
+        content: none;
+    }
+
+    .toolbar {
+        min-height: 80px;
+
+        .toolbar-background {
+            border: none;
+            background: #fff;
+        }
+    }
+}

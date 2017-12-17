@@ -32,7 +32,9 @@ const cloudSettings: CloudSettings = {
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{
+      mode: 'ios'
+    }),
     IonicStorageModule.forRoot(),
     CloudModule.forRoot(cloudSettings),
     HttpModule

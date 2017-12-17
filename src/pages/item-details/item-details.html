@@ -8,53 +8,39 @@
 </ion-header>
 
 <ion-content class="card-content">
-  <!-- <div>
-    <img src="assets/img/ios-image-L3.png" style="display:block;width:100%;height:;margin-left:auto;margin-right:auto;" />
-  </div> -->
   <div>
-
      <ion-card *ngFor="let item of itemCards">
-
       <div [ngSwitch]="item.template">
         <div *ngSwitchCase="'cardInfoTemplateOnly'">
           <ion-card-header class="card-text" style="text-align:center;">
             {{item.translation}}
-            <br> 
+            <br /> 
             {{item.title}}
           </ion-card-header>          
         </div> 
 
         <div *ngSwitchCase="'cardInfoTemplateWithImg'">
            <div padding>
-             <img src={{item.urls[0]}}/> 
+             <img src="{{item.urls[0]}}" alt="" /> 
           </div>
           <ion-card-header class="card-text" style="text-align:center;">
-            {{item.translation}}
-            <br> 
+            {{item.translation}}<br /> 
             {{item.title}}
           </ion-card-header>          
         </div> 
 
         <div *ngSwitchCase="'cardDosDont'">
           <div padding>
-            <!-- <img src={{item.url_left}}/> -->
-            <img class="left-img" src={{item.urls[0]}}>
-            <img class="right-img" src={{item.urls[1]}} >
-            <p style="clear: both;">
-            <!-- <img src={{item.url_right}}/> -->
+            <img class="left-img" src="{{item.urls[0]}}" alt="" />
+            <img class="right-img" src="{{item.urls[1]}}" alt="" />
+            <p style="clear: both;"></p>
           </div>
           <ion-card-header class="card-text" style="text-align:center;">
-            {{item.translation}}
-            <br> 
+            {{item.translation}}<br /> 
             {{item.title}}
           </ion-card-header>          
         </div> 
-
-
       </div>    
-
     </ion-card> 
-
-
   </div>
 </ion-content>
