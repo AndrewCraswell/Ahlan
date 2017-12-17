@@ -11,36 +11,111 @@
   <div>
      <ion-card *ngFor="let item of itemCards">
       <div [ngSwitch]="item.template">
-        <div *ngSwitchCase="'cardInfoTemplateOnly'">
+        <div *ngSwitchCase="'CardTextBlock'">
           <ion-card-header class="card-text" style="text-align:center;">
             {{item.translation}}
             <br /> 
             {{item.title}}
-          </ion-card-header>          
-        </div> 
+          </ion-card-header>
+          {{item.card.description}}
+        </div>
 
-        <div *ngSwitchCase="'cardInfoTemplateWithImg'">
+        <div *ngSwitchCase="'CardImageTextBlock'">
            <div padding>
-             <img src="{{item.urls[0]}}" alt="" /> 
+            <div *ngIf="item.card.image.available">
+              <img class="img-dosdontlist" [attr.src]="item.card.image.displayPath(useLocalImages)"/>
+            </div>
           </div>
           <ion-card-header class="card-text" style="text-align:center;">
             {{item.translation}}<br /> 
             {{item.title}}
-          </ion-card-header>          
-        </div> 
+          </ion-card-header>
+        </div>
 
-        <div *ngSwitchCase="'cardDosDont'">
+        <div *ngSwitchCase="'CardExampleComparison'">
           <div padding>
-            <img class="left-img" src="{{item.urls[0]}}" alt="" />
-            <img class="right-img" src="{{item.urls[1]}}" alt="" />
-            <p style="clear: both;"></p>
+            <div *ngIf="item.card.image_positive.available">
+              <img class="left-img" [attr.src]="item.card.image_positive.displayPath(useLocalImages)">
+            </div>
+            <div *ngIf="item.card.image_negative.available">
+              <img class="right-img" [attr.src]="item.card.image_negative.displayPath(useLocalImages)">
+            </div>
+            <p style="clear: both;">
           </div>
           <ion-card-header class="card-text" style="text-align:center;">
             {{item.translation}}<br /> 
             {{item.title}}
-          </ion-card-header>          
-        </div> 
-      </div>    
+          </ion-card-header>
+        </div>
+        
+        <div *ngSwitchCase="'CardRulesComparison'">
+          <div padding>
+            <div *ngIf="item.card.image.available">
+              <img class="img-dosdontlist" [attr.src]="item.card.image.displayPath(useLocalImages)">
+            </div>
+            <p style="clear: both;">
+          </div>
+          <ion-card-header class="card-text" style="text-align:center;">
+            {{item.translation}}
+            <br> 
+            {{item.title}}
+          </ion-card-header>
+          
+          <!-- Again for item.card.donts -->
+          <ion-card *ngFor="let media of item.card.dos">
+            <div *ngIf="media.useIcon">
+              <!-- use Icon -->
+            </div>
+            <!-- ELSE - use Image-->
+          </ion-card>
+        </div>
+          
+        <div *ngSwitchCase="'CardItemsExplanation'">
+          <div padding>
+            <div *ngIf="item.card.image.available">
+              <img class="img-dosdontlist" [attr.src]="item.card.image.displayPath(useLocalImages)">
+            </div>
+            <p style="clear: both;">
+          </div>
+          <ion-card-header class="card-text" style="text-align:center;">
+            {{item.translation}}
+            <br> 
+            {{item.title}}
+          </ion-card-header>
+        </div>
+        
+        <div *ngSwitchCase="'CardUnitComparison'">
+          <div padding>
+            <div *ngIf="item.card.image.available">
+              <img class="left-img" [attr.src]="item.card.image.displayPath(useLocalImages)">
+            </div>
+            <p style="clear: both;">
+          </div>
+          <ion-card-header class="card-text" style="text-align:center;">
+            {{item.translation}}
+            <br> 
+            {{item.title}}
+          </ion-card-header>
+
+          <div *ngFor="let unit of item.units">
+            <!-- need CSS for left unit and right unit -->
+          </div>
+        </div>
+        
+        <div *ngSwitchCase="'CardMonth'">
+          <ion-card-header class="card-text" style="text-align:center;">
+            {{item.translation}}
+            <br> 
+            {{item.title}}
+          </ion-card-header>
+
+          <div *ngFor="let date of item.dates">
+            <!-- need CSS for specific date and generic date -->
+          </div>
+        </div>
+
+      </div>
+
     </ion-card> 
   </div>
 </ion-content>

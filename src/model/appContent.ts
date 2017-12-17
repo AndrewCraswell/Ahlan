@@ -187,7 +187,9 @@ export class Image extends ContentBase {
        }
     }
 
-    get url(): string { return this.data["en-US"].url; }
+    get url(): string { return this.available ? this.data["en-US"].url : ""; }
+
+    get available(): boolean { return this.data && this.data["en-US"]; }
 
     get type(): string { return this.data["en-US"].contentType.split("/")[1] }
 
@@ -244,6 +246,8 @@ export class MediaItem extends ContentBase {
         this.iconClass = iconClass;
         this.iconImage = new Image(null, this.extractIdFromMap(iconImage, 'en-US'));
     }
+
+    get useIcon():boolean { return this.iconClass != null; }
     
     findImage(images: any[]) {
         images.forEach(i => { if (i.id == this.iconImage.id) this.iconImage = i })

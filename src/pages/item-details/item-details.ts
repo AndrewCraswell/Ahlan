@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
-import { Topic, Card } from "../../model/appContent";
+import * as Content from "../../model/appContent";
+import { Platform } from 'ionic-angular/platform/platform';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { Topic, Card } from "../../model/appContent";
 })
 export class ItemDetailsPage {
   selectedItem: any;
-  topic: Topic;
+  topic: Content.Topic;
 
   urls_left: string[];
   urls_right: string[];
@@ -20,16 +21,20 @@ export class ItemDetailsPage {
   items: Array<{title: string, translation: string, url_left: string, url_right: string, type:string}>;
 
   // Every Card has a title, translation, and template. Assigning the card to itemCard as well.
-  itemCards: Array<{title: string, translation: string, template: string, card: Card, urls: string[], dostext: string[], donttext: string[], dosicons: string[], donticons: string[]}>;
+  itemCards: Array<{title: string, translation: string, template: string, card: Content.Card}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  useLocalImages: boolean;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, platform: Platform) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
     console.log('Navigated to Cards:: L2');
     console.log(this.selectedItem);
 
-    let cards = this.selectedItem.topic.cards;
+    this.useLocalImages = platform.is('cordova');
+
+    let cards: Content.Card[] = this.selectedItem.topic.cards;
 
     console.log("Trying to see what cards is: ")
     console.log(this.selectedItem.topic.cards);
@@ -46,73 +51,13 @@ export class ItemDetailsPage {
     for(let i = 0; i < cards.length; i++) {
       // console.log("Check template:")
       // console.log(cards[i].template)
-      switch(cards[i].template){
-        case 'cardInfoTemplateOnly':
-          this.itemCards.push({
-            card: cards[i],
-            template: cards[i].template,
-            title: cards[i].title['en-US'],
-            translation: cards[i].title['ar'],
-            urls: [],
-            dostext  : [],
-            donttext : [],
-            dosicons : [],
-            donticons: []
-          });
-          break;
-        case 'cardInfoTemplateWithImg':
-          this.itemCards.push({
-            card: cards[i],
-            template: cards[i].template,
-            title: cards[i].title['en-US'],
-            translation: cards[i].title['ar'],
-            urls: ["assets/img/template2.png"],
-            // urls: [cards[i].mediaInfoWithImg],
-            dostext  : [],
-            donttext : [],
-            dosicons : [],
-            donticons: []
-          });
-          break;
-        case 'cardDosDont':
-          this.itemCards.push({
-            card: cards[i],
-            template: cards[i].template,
-            title: cards[i].title['en-US'],
-            translation: cards[i].title['ar'],
-            urls: ["assets/img/kitchen1.png","assets/img/kitchen3.png"],
-            // urls: cards[i].mediaDosDont,
-            dostext  : [],
-            donttext : [],
-            dosicons : [],
-            donticons: []
-          });
-          break;
-        case 'cardDosDontList':
-          this.itemCards.push({
-            card: cards[i],
-            template: cards[i].template,
-            title: cards[i].title['en-US'],
-            translation: cards[i].title['ar'],
-            urls: ["assets/img/template2.png"],
-            // urls: [cards[i].mainImageDosDontList],
-            dostext  : cards[i].dosListText,
-            donttext : cards[i].dontListText,
-            dosicons : cards[i].dosListIcon,
-            donticons: cards[i].dontListIcon
-          });
-          break;
-      }
-    }
-
-    for(let i = 0; i < this.urls_left.length; i++) {
-      this.items.push({
-        title: this.titles[i],
-        translation: this.translations[i],
-        url_left: this.urls_left[i],
-        url_right: this.urls_right[i],
-        type: this.types[i]
+      this.itemCards.push({
+        card: cards[i],
+        template: cards[i].constructor.name,
+        title: cards[i].title['en-US'],
+        translation: cards[i].title['ar']
       });
     }
+    
   }
 }
