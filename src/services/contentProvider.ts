@@ -37,7 +37,7 @@ export class ContentProvider {
     }
 
     getLastUpdateTime(): Promise<Date> {
-        return this.storage.get('contentUpdated').then(time => time);
+        return this.storage.get('contentUpdated').then(time => time || new Date(0));
     }
 
     private updateContent(): Promise<Category[]> {
