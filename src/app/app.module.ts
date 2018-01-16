@@ -3,9 +3,9 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { ItemDetailsPage } from '../pages/item-details/item-details';
+import { TopicPage } from '../pages/topic/topic';
+import { CategoryListPage } from '../pages/category-list/category-list';
 import { CategoryPage } from '../pages/category/category';
-import { SubCategoryPage } from '../pages/sub-category/sc-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,13 +26,14 @@ const cloudSettings: CloudSettings = {
 @NgModule({
   declarations: [
     MyApp,
-    ItemDetailsPage,
-    CategoryPage,
-    SubCategoryPage
+    TopicPage,
+    CategoryListPage,
+    CategoryPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp,{
+      backButtonText: '',
       mode: 'ios'
     }),
     IonicStorageModule.forRoot(),
@@ -42,9 +43,9 @@ const cloudSettings: CloudSettings = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    ItemDetailsPage,
-    CategoryPage,
-    SubCategoryPage
+    TopicPage,
+    CategoryListPage,
+    CategoryPage
   ],
   providers: [
     StatusBar,

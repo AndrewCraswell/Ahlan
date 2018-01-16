@@ -1,26 +1,69 @@
-category-list {
-    .header{
-        .toolbar{
-            button{
-                color: #aaa;
+category {
+    .header {
+        .toolbar {
+            button {
+                color: #fff;
+            }
+        }
+
+        .segment .segment-button {
+            color: #fff;
+            opacity: 1;
+            font-weight: 300;
+            font-size: 13px;
+    
+            &.segment-activated {
+                border-bottom: 4px solid #ffce4c;
             }
         }
     }
 
-    .categories {
+    .topic-list {
+        -webkit-column-count: 2;
 
-        .category-item {
-            min-height:110px;
-            text-align:center;
-            margin:10px 0;
-            p {
-                color:#fff;
-                font-size: 1.3em;
+        .topic-button {
+            background-color: #fff;
+            height: 180px;
+            padding-left: 0;
+            -webkit-box-shadow: 0 0 3px 1px rgba(238, 238, 238, 1);
+            -moz-box-shadow: 0 0 3px 1px rgba(238, 238, 238, 1);
+            box-shadow: 0 0 3px 1px rgba(238, 238, 238, 1);
+
+            .label {
+                overflow: inherit;
+                white-space: normal;
             }
 
-            .item-inner{
-                border:0;
+            .item-inner {
+                padding-right: 0;
+                background-image: none;
+                border: 0;
+                text-align: center;
+                font-size: 1.1em;
+                white-space: normal;
+
+                span {
+                    display: block;
+                }
             }
+        }
+
+        .item {
+            .item-icon {
+                display: block;
+            }
+        }
+    }
+
+    .category-title {
+        .toolbar-title {
+            color: #fff;
+        }
+    }
+
+    .hero-banner {
+        .scroll-content > div:first-child {
+            padding: 15px;
         }
     }
 }

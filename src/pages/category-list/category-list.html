@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title style="text-align:center;">
+      <p lang="ar" dir="rtl" style="margin-bottom:0;">أهلاً</p>
+      <p lang="en" dir="ltr" style="margin-top:0;">Ahlan</p>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding id="page1">
+  <ion-refresher (ionRefresh)="refreshContent($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list class="categories">
+    <button ion-item *ngFor="let category of categories" class="category-item" (click)="categoryTapped($event, category)"  [ngStyle]="{'background-color':category.color }">
+      <p lang="ar" dir="rtl">{{category.title}}</p>
+      <p lang="en" dir="ltr">{{category.translation}}</p> 
+    </button>
+  </ion-list>
+</ion-content>
