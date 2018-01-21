@@ -15,6 +15,15 @@ category {
             &.segment-activated {
                 border-bottom: 4px solid #ffce4c;
             }
+
+            p {
+                margin: 0;
+                line-height: normal;
+
+                &:first-child {
+                    margin-bottom: 2px;
+                }
+            }
         }
     }
 
@@ -58,12 +67,6 @@ category {
     .category-title {
         .toolbar-title {
             color: #fff;
-        }
-    }
-
-    .hero-banner {
-        .scroll-content > div:first-child {
-            padding: 15px;
         }
     }
 }
