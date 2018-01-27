@@ -69,4 +69,28 @@ category {
             color: #fff;
         }
     }
+
+    .keywords-active .scroll-content {
+        background-color: #fff;
+    }
+
+    .keywords-tab {
+        .row {
+            padding: 12px 0;
+            border-bottom: 1px solid #f4f4f4;
+
+            .col {
+                font-size: 16px;
+                font-weight: 500;
+
+                &:nth-child(2) {
+                    text-align: center;
+                }
+
+                &:last-child {
+                    text-align: right;
+                }
+            }
+        }
+    }
 }
