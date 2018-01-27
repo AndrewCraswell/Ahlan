@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-
 import { NavController, NavParams } from 'ionic-angular';
-
 import { CategoryPage } from '../category/category';
-
 import { ContentProvider } from '../../services/contentProvider';
 import { Category } from "../../model/appContent";
 
@@ -13,12 +10,7 @@ import { Category } from "../../model/appContent";
   providers: [ContentProvider]
 })
 export class CategoryListPage {
-  tempCategories: string[];
-  icons: string[];
-  categories: Array<{title: string, /*note: string, icon: string,*/ color: string, translation: string, category: Category}>;
-  colors: string[];
-  translations: string[];
-
+  categories: Array<{title: string, color: string, translation: string, category: Category}>;
   cloudUpdated: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private contentProvider: ContentProvider) {
@@ -40,7 +32,9 @@ export class CategoryListPage {
     this.contentProvider.getLastUpdateTime().then(time => {
       let age = new Date().valueOf() - time.valueOf();
       let oneDay = 24*60*60*1000;
+      
       console.log(`Stored content age: ${age}`);
+      
       if (age > oneDay) {
         console.log("Stored content too old - updating from web.")
         this.refreshContent();
@@ -53,9 +47,11 @@ export class CategoryListPage {
   refreshContent(refresher = null) {
     this.contentProvider.getUpdatedContent().then(categories => {
       console.log("Got new content in category view.");
+      
       this.categories = [];
       this.assignContent(categories);
       this.cloudUpdated = true;
+      
       if (refresher != null) {
         refresher.complete();
       }

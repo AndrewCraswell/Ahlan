@@ -29,9 +29,11 @@ export class CategoryPage {
       var again = false;
       do {
         again = !again;
+        topics[i].icon = topics[i].icon || 'fa-info-circle';
+
         nextRow.push({
             title: topics[i].title['ar'],
-            icon: topics[i].icon != null ? topics[i].icon : "fa-info-circle",
+            icon: topics[i].icon,
             translation: topics[i].title['en-US'],
             topic: topics[i]
           });

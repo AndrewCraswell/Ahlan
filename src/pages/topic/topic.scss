@@ -1,14 +1,22 @@
+$header-height: 120px;
+
 topic {
-    .header{
-        .toolbar{
-            button{
-                color: #000;
+    .card-content {
+        .scroll-content {
+            padding-top: $header-height;
+        }
+
+        .header {
+            .toolbar {
+                min-height: $header-height;
+
+                button {
+                    color: #000;
+                }
             }
         }
-    }
 
-    .card-content{      
-        .card-text{
+        .card-text {
             overflow: initial;
             white-space: normal;
         }
