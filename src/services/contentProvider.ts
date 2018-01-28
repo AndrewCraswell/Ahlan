@@ -3,7 +3,7 @@ import { Platform } from "ionic-angular/platform/platform";
 import { Storage } from '@ionic/storage';
 import { File } from "@ionic-native/file";
 import { ContentUpdater } from "./contentUpdater";
-import { Category, Topic, Card, CardTextBlock, CardImageTextBlock, CardExampleComparison,
+import { Category, Topic, KeywordList, Keyword, Card, CardTextBlock, CardImageTextBlock, CardExampleComparison,
         CardRulesComparison, CardItemsExplanation, CardUnitComparison, CardMonth, DateBase,
         GenericDate, SpecificDate, MediaItem, UnitComparison, Unit, ContentTypes, Image } from "../model/appContent";
 
@@ -58,6 +58,8 @@ export class ContentProvider {
 
         var newContent = new Array<Category>();
         var tempTopics = new Array<Topic>();
+        var keywordLists = new Array<KeywordList>();
+        var keywords = new Array<Keyword>();
         var tempCards = new Array<Card>();
         var tempDates = new Array<DateBase>();
         var tempMedia = new Array<MediaItem>();
@@ -85,15 +87,18 @@ export class ContentProvider {
                 // L2
                 case ContentTypes.Topic:
                 case 'article':
-                    var slug = fields.topicSlug;
-                    if (slug == null) { slug = fields.articleSlug; }
-                    var top = new Topic(
-                        element.sys.id,
-                        slug,
-                        fields.title,
-                        this.getKeyIfNotNull(fields.iconClass, 'en-US'),
-                        this.getKeyIfNotNull(fields.cardsCollection, 'en-US'));
-                        tempTopics.push(top);
+                    let title = this.getKeyIfNotNull(element.fields.title, 'en-US');
+                    if (title != null && title == ContentTypes.KeywordList) {
+                        keywordLists.push(new KeywordList(element));
+                    }
+                    else {
+                        tempTopics.push(new Topic(element));
+                    }
+                    break;
+                
+                // Keywords
+                case ContentTypes.KeywordItem:
+                    keywords.push(new Keyword(element));
                     break;
 
                 // L3 Types (Cards)
@@ -203,8 +208,9 @@ export class ContentProvider {
             }
         }
 
-        console.log(`Got ${newContent.length} Categories, ${tempTopics.length} Topics, ${tempCards.length} Cards,`
-                    + ` ${tempDates.length} Dates, ${tempMedia.length} Media, ${tempUnitPair.length} UnitPairs, ${tempUnits.length} Units`);
+        console.log(`Got ${newContent.length} Categories, ${tempTopics.length} Topics, ${keywordLists.length} KeywordLists,`
+                    + ` ${keywords.length} Keywords, ${tempCards.length} Cards, ${tempDates.length} Dates,`
+                    + ` ${tempMedia.length} Media, ${tempUnitPair.length} UnitPairs, ${tempUnits.length} Units`);
 
         // Link Units to the UnitComparisons that reference them
         tempUnitPair.forEach(pair => {
@@ -240,7 +246,14 @@ export class ContentProvider {
             }
         });
 
+        // assign keywords
+        keywordLists.forEach(list => list.findKeywords(keywords));
+        newContent.forEach(category => {
+            category.findKeywords(keywordLists);
+        });
+
         // Loop through all Card content and link each to the Topic that owns it
+        // TODO: This needs a function in Topic
         var cardToLink = tempCards.pop();
         while (cardToLink != null) {
             let length = tempTopics.length;
@@ -261,7 +274,11 @@ export class ContentProvider {
             cardToLink = tempCards.pop();
         }
 
+        // link Keyword lists to parent Category
+        newContent.forEach(cat => cat.findKeywords(keywordLists));
+
         // Loop through all Topic content and link each to the Category that owns it
+        // TODO: This needs a function in Category
         var topToLink = tempTopics.pop();
         while (topToLink != null) {
             let length = newContent.length;

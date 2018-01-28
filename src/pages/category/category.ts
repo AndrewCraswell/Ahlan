@@ -13,13 +13,16 @@ export class CategoryPage {
   topicRows: Array<Array<{title: string, icon: string, translation: string, topic: Topic}>>;
   selectedCategory: any;
   categoryTabs: string;
+  keywords: Array<{keyword: string, translation: string, phonetic: string}>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedCategory = navParams.get('category');
     let topics = this.selectedCategory.category.topics;
     let numTopics = topics.length;
+    let numKeywords = this.selectedCategory.category.keywords.keywords.length;
     this.topicRows = [];
+    this.keywords = [];
     this.categoryTabs = 'Topics';
 
     console.log(this.selectedCategory);
@@ -40,6 +43,15 @@ export class CategoryPage {
       } while (again && ++i < numTopics)
       this.topicRows.push(nextRow);
     }
+
+    for (let i = 0; i < numKeywords; i++) {
+      let k = this.selectedCategory.category.keywords.keywords[i];
+      this.keywords.push({
+        keyword: k.title['ar'],
+        translation: k.title['en-US'],
+        phonetic: k.phonetic
+      })
+    }    
   }
 
   topicTapped(event, topic) {

@@ -16,9 +16,7 @@ export abstract class ContentBase {
     populateChildIds(ids: any[], container: any[] = null) {
         if (ids != null) {
             let list = container != null ? container : this.childIds;
-            ids.forEach(i => {
-                list.push(i.sys.id)
-            });
+            ids.forEach(i => list.push(i.sys.id));
         }
     }
 }
@@ -26,11 +24,21 @@ export abstract class ContentBase {
 export class Category extends ContentBase {
     public color: string;
     public topics: Topic[] = new Array<Topic>();
+    public keywords: KeywordList;
 
     constructor(id: string, slug: string, title: Map<string, string>, color: string, topicList: any[]) {
         super(id, slug, title);
         this.color = color;
         this.populateChildIds(topicList);
+    }
+
+    findKeywords(keywords: KeywordList[]) {
+        for (var i = 0; i < keywords.length; i++) {
+            if (this.childIds.findIndex(c => c == keywords[i].id) >= 0){
+                this.keywords = keywords[i];
+                break;
+            }
+        }
     }
 }
 
@@ -38,10 +46,47 @@ export class Topic extends ContentBase {
     public cards: Card[] = new Array<Card>();
     public icon: string;
 
-    constructor(id: string, slug: string, title: Map<string, string>, icon: string, cardList: any[]) {
-        super(id, slug, title);
-        this.icon = icon;
-        this.populateChildIds(cardList);
+    constructor(jsonData: any) {
+        super(jsonData.sys.id,
+              jsonData.fields.topicSlug != null ? jsonData.fields.topicSlug : jsonData.fields.articleSlug,
+              jsonData.fields.title);
+        
+        if (jsonData.fields.iconClass != null && jsonData.fields.iconClass['en-US'] != null) {
+            this.icon = jsonData.fields.iconClass['en-US'];
+        }
+        if (jsonData.fields.cardsCollection != null && jsonData.fields.cardsCollection['en-US'] != null) {
+            this.populateChildIds(jsonData.fields.cardsCollection['en-US']);
+        }
+    }
+}
+
+// Keywords
+export class KeywordList extends ContentBase {
+    public keywords: Keyword[] = Array<Keyword>();
+
+    constructor(jsonData: any) {
+        super(jsonData.sys.id,
+              jsonData.fields.topicSlug != null ? jsonData.fields.topicSlug : jsonData.fields.articleSlug,
+              jsonData.fields.title);
+        
+        if (jsonData.fields.keywordsCollection != null && jsonData.fields.keywordsCollection['en-US'] != null) {
+            this.populateChildIds(jsonData.fields.keywordsCollection['en-US']);
+        }
+    }
+
+    findKeywords(keywords: Keyword[]) {
+        keywords.forEach(k => { if (this.childIds.indexOf(k.id) >= 0) this.keywords.push(k) });
+    }
+}
+
+export class Keyword extends ContentBase {
+    public phonetic: Map<string, string>;
+
+    constructor(jsonData: any) {
+        super(jsonData.sys.id,
+              null,
+              jsonData.fields.keywordTitle);
+        this.phonetic = jsonData.fields.keywordPhonetic;
     }
 }
 
@@ -290,6 +335,9 @@ export class Unit extends ContentBase {
 export class ContentTypes {
     public static readonly Category: string = 'category';
     public static readonly Topic: string = 'topic';
+
+    public static readonly KeywordList: string = 'Keywords';
+    public static readonly KeywordItem: string = 'keywordItem';
 
     public static readonly CardTextBlock: string = 'cardTextBlock';
     public static readonly CardImageTextBlock: string = 'cardImageTextBlock';
