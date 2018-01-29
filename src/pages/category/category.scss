@@ -90,6 +90,10 @@ category {
                 &:last-child {
                     text-align: right;
                 }
+
+                span {
+                    text-transform: capitalize;
+                }
             }
         }
     }

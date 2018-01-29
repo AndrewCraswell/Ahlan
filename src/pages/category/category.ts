@@ -48,7 +48,7 @@ export class CategoryPage {
       let k = this.selectedCategory.category.keywords.keywords[i];
       this.keywords.push({
         keyword: k.title['ar'],
-        translation: k.title['en-US'],
+        translation: k.title['en-US'].toLowerCase(),
         phonetic: k.phonetic
       })
     }    
