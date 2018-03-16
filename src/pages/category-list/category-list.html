@@ -15,7 +15,7 @@
   <ion-list class="categories">
     <button ion-item *ngFor="let category of categories" class="category-item" (click)="categoryTapped($event, category)"  [ngStyle]="{'background-color':category.color }">
       <p lang="ar" dir="rtl">{{category.title}}</p>
-      <p lang="en" dir="ltr">{{category.translation}}</p> 
+      <p lang="en" dir="ltr">{{category.translation}}</p>
     </button>
   </ion-list>
 </ion-content>

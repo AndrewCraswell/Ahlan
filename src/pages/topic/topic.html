@@ -1,180 +1,225 @@
-<ion-content class="card-content">
+<ion-content class="topic-page">
   <ion-header>
-      <ion-navbar>
-        <button menuToggle *ngIf="!selectedTopic">
-          <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title class="topic-title">
-            <i class="fal {{selectedTopic.topic.icon}}" style="margin-bottom: 10px;font-size: 2.5em;"></i>
-            <p lang="ar" dir="rtl" style="margin: 0;">{{selectedTopic.title}}</p>
-            <p lang="en" dir="ltr" style="margin: 0;">{{selectedTopic.translation}}</p>
-          </ion-title>
-      </ion-navbar>
-    </ion-header>
+    <ion-navbar>
+      <button menuToggle *ngIf="!selectedTopic">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title class="topic-title">
+        <i class="fal {{selectedTopic.topic.icon}}"></i>
+        <p lang="ar" dir="rtl">{{selectedTopic.title}}</p>
+        <p lang="en" dir="ltr">{{selectedTopic.translation}}</p>
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
 
-    <div padding class="article-list">
-      <!-- CardTextBlock -->
-      <ion-card>
-        <div>
-          <ion-card-content class="card-text" style="text-align:center;">
-            <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">لقد تعلمت الصمت من الكلام، التسامح من التعصب، واللطف من العار؛ ومع ذلك، غريبة، وأنا ممتن لهؤلاء المعلمين.</span>
-            <span lang="en" dir="ltr" style="display:block;">I have learned silence from the talkative, toleration from the intolerant, and kindness from the unkind; yet, strange, I am ungrateful to those teachers.</span>
-          </ion-card-content>          
-        </div>
-      </ion-card>
-      
-      <!-- CardImageTextBlock -->
-      <ion-card>
-        <div>
-          <img src="http://via.placeholder.com/350x150"/>
-          <ion-card-content class="card-text" style="text-align:center;">
-            <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">أنا أحبك عندما كنت القوس في المسجد الخاص بك، والركوع في المعبد الخاص بك، والصلاة في كنيستك. بالنسبة لك وأنا أبناء من دين واحد، وهي الروح.</span>
-            <span lang="en" dir="ltr" style="display:block;">I love you when you bow in your mosque, kneel in your temple, pray in your church. For you and I are sons of one religion, and it is the spirit.</span>
-          </ion-card-content>          
-        </div>
-      </ion-card>
+  <div padding class="article-list">
+    <!-- CardTextBlock -->
+    <ion-card class="card-text">
+      <div>
+        <ion-card-content class="card-content">
+          <span lang="ar" dir="rtl">لقد تعلمت الصمت من الكلام، التسامح من التعصب، واللطف من العار؛ ومع ذلك، غريبة، وأنا ممتن لهؤلاء المعلمين.</span>
+          <span lang="en" dir="ltr">I have learned silence from the talkative, toleration from the intolerant, and kindness from the unkind; yet, strange, I am ungrateful to those teachers.</span>
+        </ion-card-content>
+      </div>
+    </ion-card>
 
-      <!-- CardItemsExplanation -->
-      <ion-card>
-        <div>
-          <img src="http://via.placeholder.com/350x150"/>
-          <ion-card-content class="card-text" style="text-align:center;">
-            <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">لماذا تفكر بذلك المستقبل للتنبؤ، واليشم دماغك إلى عبث الحيرة؟ يلقي الرعاية الخاصة بك، وترك خطط الله له - شكل كل منهم دون استشارة لك.</span>
-            <span style="display:block;margin-bottom:1em;">Why ponder thus the future to foresee, and jade thy brain to vain perplexity? Cast off thy care, leave Allah’s plans to him – He formed them all without consulting thee.</span>
-          
-            <ion-grid style="font-weight: 900;">
-              <ion-row  style="position:relative;">
-                <ion-col>
-                  <i class="fal fa-ambulance" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">سياره اسعاف</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Ambulance</p>
-                </ion-col>
-                <ion-col>
-                  <i class="fal fa-user-md" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">طبيب</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Docter</p>
-                </ion-col>
-                <ion-col>
-                  <i class="fal fa-medkit" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">إسعافات أولية</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">First Aid</p>
-                </ion-col>
-                <ion-col>
-                  <i class="fal fa-hospital" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">مستشفى</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Hospital</p>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>          
-        </div>
-      </ion-card>
+    <!-- CardImageTextBlock -->
+    <ion-card class="card-image-text">
+      <div>
+        <img src="http://via.placeholder.com/350x150" alt="" />
+        <ion-card-content class="card-content">
+          <span lang="ar" dir="rtl">أنا أحبك عندما كنت القوس في المسجد الخاص بك، والركوع في المعبد الخاص بك، والصلاة في كنيستك. بالنسبة لك وأنا أبناء من دين واحد، وهي الروح.</span>
+          <span lang="en" dir="ltr">I love you when you bow in your mosque, kneel in your temple, pray in your church. For you and I are sons of one religion, and it is the spirit.</span>
+        </ion-card-content>
+      </div>
+    </ion-card>
 
-      <!-- CardRulesComparison -->
-      <ion-card>
-        <div>
-          <img src="http://via.placeholder.com/350x150"/>
-          <ion-card-content class="card-text" style="text-align:center;">
-            <span style="display:block;margin-bottom: 1em;" lang="ar" dir="rtl">والقريب هو قريب من قلب الشعب، ولكن الرحيم قريب من قلب الله.</span>
-            <span style="display:block;margin-bottom:1em;" lang="en" dir="ltr">The just is close to the people's heart, but the merciful is close to the heart of God.</span>
-          
-            <ion-grid style="font-weight:900;">
-              <ion-row style="position:relative;background-color:#EAF8DB;padding:24px 6px 6px;margin-bottom:12px">
-                <i class="far fa-check" style="position: absolute;right: 0px;top:0;color: #fff;padding: 6px;border-radius: 50%;background-color: #62AD10;margin: 6px;"></i>
-                <ion-col>
-                  <i class="fal fa-ambulance" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">سياره اسعاف</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Ambulance</p>
-                </ion-col>
-                <ion-col>
-                  <i class="fal fa-user-md" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">طبيب</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Docter</p>
-                </ion-col>
-                <ion-col>
-                  <i class="fal fa-medkit" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">إسعافات أولية</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">First Aid</p>
-                </ion-col>
-                <ion-col>
-                  <i class="fal fa-hospital" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">مستشفى</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Hospital</p>
-                </ion-col>
-              </ion-row>
-              <ion-row style="position:relative;background-color:#FDEBEA;padding:24px 6px 6px;">
-                <i class="far fa-ban" style="position: absolute;right: 0;top:0;color: #fff;padding: 6px;border-radius: 50%;background-color: #FF3154;margin: 6px;"></i>
-                <ion-col>
-                  <i class="fal fa-thermometer-full" style="margin-bottom:5px;font-size:2.5em;"></i>
+    <!-- CardItemsExplanation -->
+    <ion-card class="card-items-explanation">
+      <div>
+        <img src="http://via.placeholder.com/350x150" alt="" />
+        <ion-card-content class="card-content">
+          <span lang="ar" dir="rtl">لماذا تفكر بذلك المستقبل للتنبؤ، واليشم دماغك إلى عبث الحيرة؟ يلقي الرعاية الخاصة بك، وترك خطط الله له - شكل كل منهم دون استشارة لك.</span>
+          <span lang="en">Why ponder thus the future to foresee, and jade thy brain to vain perplexity? Cast off thy care, leave Allah’s plans to him – He formed them all without consulting thee.</span>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <i class="fal fa-ambulance"></i>
+                <p lang="ar" dir="rtl">سياره اسعاف</p>
+                <p lang="en" dir="ltr">Ambulance</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-user-md"></i>
+                <p lang="ar" dir="rtl">طبيب</p>
+                <p lang="en" dir="ltr">Docter</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-medkit"></i>
+                <p lang="ar" dir="rtl">إسعافات أولية</p>
+                <p lang="en" dir="ltr">First Aid</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-hospital"></i>
+                <p lang="ar" dir="rtl">مستشفى</p>
+                <p lang="en" dir="ltr">Hospital</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+    <!-- CardRulesComparison -->
+    <ion-card class="card-rules-comparison">
+      <div>
+        <img src="http://via.placeholder.com/350x150" alt="" />
+        <ion-card-content class="card-content">
+          <span lang="ar" dir="rtl">والقريب هو قريب من قلب الشعب، ولكن الرحيم قريب من قلب الله.</span>
+          <span lang="en" dir="ltr">The just is close to the peaple&#39;s heart, but the merciful is close to the heart of God.</span>
+
+          <ion-grid>
+            <ion-row class="correct-example">
+              <i class="far fa-check"></i>
+              <ion-col>
+                <i class="fal fa-ambulance"></i>
+                <p lang="ar" dir="rtl">سياره اسعاف</p>
+                <p lang="en" dir="ltr">Ambulance</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-user-md"></i>
+                <p lang="ar" dir="rtl">طبيب</p>
+                <p lang="en" dir="ltr">Docter</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-medkit"></i>
+                <p lang="ar" dir="rtl">إسعافات أولية</p>
+                <p lang="en" dir="ltr">First Aid</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-hospital"></i>
+                <p lang="ar" dir="rtl">مستشفى</p>
+                <p lang="en" dir="ltr">Hospital</p>
+              </ion-col>
+            </ion-row>
+            <ion-row class="incorrect-example">
+              <i class="far fa-ban"></i>
+              <ion-col>
+                <i class="fal fa-thermometer-full"></i>
+                <p lang="ar" dir="rtl">حمة</p>
+                <p lang="en" dir="ltr">Fever</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-blind"></i>
+                <p lang="ar" dir="rtl">بليند</p>
+                <p lang="en" dir="ltr">Blind</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-bed"></i>
+                <p lang="ar" dir="rtl">نعسان</p>
+                <p lang="en" dir="ltr">Drowsy</p>
+              </ion-col>
+              <ion-col>
+                <i class="fal fa-sign-language"></i>
+                <p lang="ar" dir="rtl">جراثيم</p>
+                <p lang="en" dir="ltr">Germs</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+    <!-- CardExampleComparison -->
+    <ion-card>
+      <div>
+        <div style="display:inline-block;width:50%;position:relative;">
+          <i class="far fa-check" style="position: absolute;right: 0px;top:0;color: #fff;padding: 6px;border-radius: 50%;background-color: #62AD10;margin: 6px;"></i>
+          <img src="http://via.placeholder.com/350x250"/>
+        </div><div style="display:inline-block;width:50%;position:relative;">
+          <i class="far fa-ban" style="position: absolute;right: 0px;color: #fff;padding: 6px;border-radius: 50%;background-color: #FF3154;margin: 6px;"></i>
+          <img src="http://via.placeholder.com/350x250"/>
+        </div>
+        <ion-card-content class="card-content" style="text-align:center;">
+          <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">العديد من المذهب هو مثل نافذة جزء. ونحن نرى الحقيقة من خلال ذلك لكنه يقسمنا من الحقيقة.</span>
+          <span lang="en" dir="ltr" style="display:block;">Many a doctrine is like a window pane. We see truth through it but it divides us from truth.</span>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+    <!-- CardUnitComparison -->
+    <ion-card>
+      <div>
+        <img src="http://via.placeholder.com/350x150"/>
+        <ion-card-content class="card-content" style="text-align:center;">
+          <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">الصوت</span>
+          <span lang="en" dir="ltr" style="display:block;">Volume</span>
+
+          <ion-grid style="margin-top: 1em; font-weight:900;">
+              <ion-row>
+                <ion-col style="background-color: #ededed;margin:2px;">
                   <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Fever</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">1 Gallon</p>
                 </ion-col>
-                <ion-col>
-                  <i class="fal fa-blind" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">بليند</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Blind</p>
+                <ion-col style="background-color: #dedede;margin:2px;">
+                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">3.78 Liter</p>
                 </ion-col>
-                <ion-col>
-                  <i class="fal fa-bed" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">نعسان</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Drowsy</p>
+              </ion-row>
+              <ion-row>
+                <ion-col style="background-color: #ededed;margin:2px;">
+                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">1 Quart</p>
                 </ion-col>
-                <ion-col>
-                  <i class="fal fa-sign-language" style="margin-bottom:5px;font-size:2.5em;"></i>
-                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">جراثيم</p>
-                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">Germs</p>
+                <ion-col style="background-color: #dedede;margin:2px;">
+                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">0.95 Liter</p>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="background-color: #ededed;margin:2px;">
+                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">1 Cup</p>
+                </ion-col>
+                <ion-col style="background-color: #dedede;margin:2px;">
+                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">237 ML</p>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="background-color: #ededed;margin:2px;">
+                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">1 Ounce</p>
+                </ion-col>
+                <ion-col style="background-color: #dedede;margin:2px;">
+                  <p style="text-align:center;color:#000;" lang="ar" dir="rtl">حمة</p>
+                  <p style="text-align:center;color:#000;" lang="en" dir="ltr">29.5 ML</p>
                 </ion-col>
               </ion-row>
             </ion-grid>
-          </ion-card-content>          
-        </div>
-      </ion-card>
-    
-      <!-- CardExampleComparison -->
-      <ion-card>
-        <div>
-          <div style="display:inline-block;width:50%;position:relative;">
-            <i class="far fa-check" style="position: absolute;right: 0px;top:0;color: #fff;padding: 6px;border-radius: 50%;background-color: #62AD10;margin: 6px;"></i>
-            <img src="http://via.placeholder.com/350x250"/>
-          </div><div style="display:inline-block;width:50%;position:relative;">
-            <i class="far fa-ban" style="position: absolute;right: 0px;color: #fff;padding: 6px;border-radius: 50%;background-color: #FF3154;margin: 6px;"></i>
-            <img src="http://via.placeholder.com/350x250"/>
-          </div>
-          <ion-card-content class="card-text" style="text-align:center;">
-            <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">العديد من المذهب هو مثل نافذة جزء. ونحن نرى الحقيقة من خلال ذلك لكنه يقسمنا من الحقيقة.</span>
-            <span lang="en" dir="ltr" style="display:block;">Many a doctrine is like a window pane. We see truth through it but it divides us from truth.</span>
-          </ion-card-content>
-        </div>
-      </ion-card>
+        </ion-card-content>
+      </div>
+    </ion-card>
 
-      <!-- CardExampleComparison -->
-      <ion-card>
-          <div>
-            <img src="http://via.placeholder.com/350x150"/>
-            <ion-card-content class="card-text" style="text-align:center;">
-              <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">الصوت</span>
-              <span lang="en" dir="ltr" style="display:block;">Volume</span>
+    <!-- CardMonth -->
+    <ion-card>
+      <div>
+        <ion-card-content class="card-content" style="text-align:center;">
+          <span lang="ar" dir="rtl" style="display:block;margin-bottom: 1em;">الصوت</span>
+          <span lang="en" dir="ltr" style="display:block;">February</span>
 
-              <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                      1 of 2
-                    </ion-col>
-                    <ion-col>
-                      2 of 2
-                    </ion-col>
-                  </ion-row>
-                  <ion-row>
-                    <ion-col>
-                      1 of 3
-                    </ion-col>
-                    <ion-col>
-                      2 of 3
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-            </ion-card-content>          
-          </div>
-        </ion-card>
-    </div>
-  </ion-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-4 style="background-color: #ededed;">
+                <p style="text-align:center;color:#000;" lang="en" dir="ltr">2/14</p>
+              </ion-col>
+              <ion-col col-8>
+                Valentines Day
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>
