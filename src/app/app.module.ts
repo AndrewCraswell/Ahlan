@@ -12,6 +12,7 @@ import { CardItemsExplanation } from '../components/CardItemsExplanation/CardIte
 import { CardRulesComparison } from '../components/CardRulesComparison/CardRulesComparison';
 import { CardMonth } from '../components/CardMonth/CardMonth';
 import { CardUnitComparison } from '../components/CardUnitComparison/CardUnitComparison';
+import { CardExampleComparison } from '../components/CardExampleComparison/CardExampleComparison';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -40,7 +41,8 @@ const cloudSettings: CloudSettings = {
     CardItemsExplanation,
     CardRulesComparison,
     CardMonth,
-    CardUnitComparison
+    CardUnitComparison,
+    CardExampleComparison
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,8 @@ const cloudSettings: CloudSettings = {
     CardItemsExplanation,
     CardRulesComparison,
     CardMonth,
-    CardUnitComparison
+    CardUnitComparison,
+    CardExampleComparison
   ],
   providers: [
     StatusBar,
