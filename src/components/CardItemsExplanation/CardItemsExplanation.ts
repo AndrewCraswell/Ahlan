@@ -10,6 +10,6 @@ export class CardItemsExplanation {
   article: Content.CardItemsExplanation;
 
   constructor() {
-
+   
   }
 }
