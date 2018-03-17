@@ -7,6 +7,8 @@ import { TopicPage } from '../pages/topic/topic';
 import { CategoryListPage } from '../pages/category-list/category-list';
 import { CategoryPage } from '../pages/category/category';
 import { CardText } from '../components/card-text/CardText';
+import { CardMonth } from '../components/CardMonth/CardMonth';
+import { CardUnitComparison } from '../components/CardUnitComparison/CardUnitComparison';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -30,7 +32,9 @@ const cloudSettings: CloudSettings = {
     TopicPage,
     CategoryListPage,
     CategoryPage,
-    CardText
+    CardText,
+    CardMonth,
+    CardUnitComparison
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,9 @@ const cloudSettings: CloudSettings = {
     TopicPage,
     CategoryListPage,
     CategoryPage,
-    CardText
+    CardText,
+    CardMonth,
+    CardUnitComparison
   ],
   providers: [
     StatusBar,
