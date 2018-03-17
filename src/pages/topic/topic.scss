@@ -150,10 +150,11 @@ topic {
                 border-radius:50%;
                 background-color: #62AD10;
                 margin: 6px; 
-            }
-
-            &:last-child > i {
                 top: 0;
+            }
+            &:nth-child(2)> i{
+                background-color: #FF3154;
+
             }
         }
 
