@@ -4,6 +4,22 @@ category {
             button {
                 color: #fff;
             }
+
+            .title {
+                text-align: center;
+
+                p:first-child {
+                    margin-bottom: 0;
+                }
+
+                p:last-child {
+                    margin-top: 0;
+                }
+
+                .toolbar-title {
+                    color: #fff;
+                }
+            }
         }
 
         .segment .segment-button {
@@ -38,6 +54,19 @@ category {
             -moz-box-shadow: 0 0 3px 1px rgba(238, 238, 238, 1);
             box-shadow: 0 0 3px 1px rgba(238, 238, 238, 1);
 
+            i {
+                margin-bottom: 16px;
+                min-height: 1em;
+            }
+
+            span {
+                min-height: 1em;
+
+                &:last-child {
+                    font-size: 16px;
+                }
+            }
+
             .label {
                 overflow: inherit;
                 white-space: normal;
@@ -64,12 +93,6 @@ category {
         }
     }
 
-    .category-title {
-        .toolbar-title {
-            color: #fff;
-        }
-    }
-
     .keywords-active .scroll-content {
         background-color: #fff;
     }
@@ -93,6 +116,7 @@ category {
 
                 span {
                     text-transform: capitalize;
+                    min-height: 1em;
                 }
             }
         }
