@@ -20,7 +20,10 @@ export class CategoryPage {
     this.selectedCategory = navParams.get('category');
     let topics = this.selectedCategory.category.topics;
     let numTopics = topics.length;
-    let numKeywords = this.selectedCategory.category.keywords.keywords.length;
+    let numKeywords = 0;
+    if (this.selectedCategory.category.keywords != null) {
+        numKeywords = this.selectedCategory.category.keywords.keywords.length;
+    }
     this.topicRows = [];
     this.keywords = [];
     this.categoryTabs = 'Topics';
