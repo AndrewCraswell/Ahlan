@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import * as Content from "../../model/appContent";
 
 @Component({
-  selector: 'card-text',
-  templateUrl: 'cardText.html'
+  selector: 'card-month',
+  templateUrl: 'CardMonth.html'
 })
-export class CardText {
-  article: Content.CardTextBlock;
+export class CardMonth {
+  article: Content.CardMonth;
 
   constructor() {
   }

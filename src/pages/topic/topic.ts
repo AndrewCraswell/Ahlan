@@ -68,17 +68,17 @@ export class TopicPage {
     // Resolve the correct component to render each article data
     for (var i = 0; i < articles.length; i++) {
       var templateName: string = articles[0].template;
-      articles[i].component = this.createComponent(templateName);
+      articles[i].component = this.createComponent(templateName, this.articlesContainer);
 
       if (articles[i].component && articles[i].component.instance) {
         articles[i].component.instance.article = articles[0].card;
       } else {
-        console.log('Unable to map Article to the', templateName, 'component. No such component exists.');
+        console.warn('Unable to map Article to the', templateName, 'component. No such component exists.');
       }
     }
   }
 
-  private createComponent(templateName: string) {
+  private createComponent(templateName: string, viewContainer: ViewContainerRef) {
     var factories = Array.from(this.resolver['_factories'].keys());
     var factoryClass = <Type<any>>factories.find((x: any) => x.name === templateName);
     
@@ -86,7 +86,7 @@ export class TopicPage {
       const factory = this.resolver.resolveComponentFactory(factoryClass);
 
       if (factory) {
-        return this.articlesContainer.createComponent(factory);
+        return viewContainer.createComponent(factory);
       }
     }
 
