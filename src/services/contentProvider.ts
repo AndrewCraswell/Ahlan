@@ -133,6 +133,7 @@ export class ContentProvider {
                     tempCards.push(new CardItemsExplanation(
                         element.sys.id,
                         fields.title,
+                        fields.description,
                         fields.image,
                         this.getKeyIfNotNull(fields.itemsList, 'en-US')));
                     break;

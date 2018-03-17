@@ -166,9 +166,11 @@ export class CardItemsExplanation extends Card {
     // Uses 'Description' and 'Title'
     public image: Image;
     public items: MediaItem[] = new Array<MediaItem>();
-    constructor(id: string, title: Map<string, string>, image: Map<string, any>, itemList: any[]) {
+    public description: Map<string, string>;
+    constructor(id: string, title: Map<string, string>, description: Map<string, string>, image: Map<string, any>, itemList: any[]) {
         super(id, title);
         this.image = new Image(null, this.extractIdFromMap(image, 'en-US'));
+        this.description = description;
         this.populateChildIds(itemList);
     }
 
