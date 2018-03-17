@@ -10,8 +10,6 @@ export abstract class ContentBase {
         this.slug = slug;
         this.title = title;
     }
-    
-    extractIdFromMap(content, key) { return content != null && content[key] != null ? content[key].sys.id : null; }
 
     populateChildIds(ids: any[], container: any[] = null) {
         if (ids != null) {
@@ -19,9 +17,33 @@ export abstract class ContentBase {
             ids.forEach(i => list.push(i.sys.id));
         }
     }
+
+    extractIdFromMap(content, key) {
+        return (content != null) && (content[key] != null) ? content[key].sys.id : null;
+    }
 }
 
-export class Category extends ContentBase {
+export abstract class ContentBaseContainer extends ContentBase {
+
+    abstract sortChildItems();
+
+    protected helperToLinkToChildAsParent(child: ContentBase, container: Array<ContentBase>) {
+        if (this.childIds.indexOf(child.id) >= 0) {
+            child.parent = this;
+            container.push(child)
+        }
+    }
+
+    protected helperToSortChildItems(container: Array<ContentBase>) {
+        container.sort((a, b) =>
+            (a.title != null) && (b.title != null) ?
+                a.title['en-US'].localeCompare(b.title['en-US']) :
+                a.id.localeCompare(b.id)
+        );
+    }
+}
+
+export class Category extends ContentBaseContainer {
     public color: string;
     public topics: Topic[] = new Array<Topic>();
     public keywords: KeywordList;
@@ -40,9 +62,20 @@ export class Category extends ContentBase {
             }
         }
     }
+
+    linkToChildAsParent(child: ContentBase) {
+        this.helperToLinkToChildAsParent(child, this.topics);
+    }
+
+    sortChildItems() {
+        this.helperToSortChildItems(this.topics);
+        if (this.keywords) {
+            this.keywords.sortChildItems();
+        }
+    }
 }
 
-export class Topic extends ContentBase {
+export class Topic extends ContentBaseContainer {
     public cards: Card[] = new Array<Card>();
     public icon: string;
 
@@ -50,7 +83,7 @@ export class Topic extends ContentBase {
         super(jsonData.sys.id,
               jsonData.fields.topicSlug != null ? jsonData.fields.topicSlug : jsonData.fields.articleSlug,
               jsonData.fields.title);
-        
+
         if (jsonData.fields.iconClass != null && jsonData.fields.iconClass['en-US'] != null) {
             this.icon = jsonData.fields.iconClass['en-US'];
         }
@@ -58,17 +91,25 @@ export class Topic extends ContentBase {
             this.populateChildIds(jsonData.fields.cardsCollection['en-US']);
         }
     }
+
+    linkToChildAsParent(child: ContentBase) {
+        this.helperToLinkToChildAsParent(child, this.cards);
+    }
+
+    sortChildItems() {
+        this.helperToSortChildItems(this.cards);
+    }
 }
 
 // Keywords
-export class KeywordList extends ContentBase {
+export class KeywordList extends ContentBaseContainer {
     public keywords: Keyword[] = Array<Keyword>();
 
     constructor(jsonData: any) {
         super(jsonData.sys.id,
               jsonData.fields.topicSlug != null ? jsonData.fields.topicSlug : jsonData.fields.articleSlug,
               jsonData.fields.title);
-        
+
         if (jsonData.fields.keywordsCollection != null && jsonData.fields.keywordsCollection['en-US'] != null) {
             this.populateChildIds(jsonData.fields.keywordsCollection['en-US']);
         }
@@ -76,6 +117,10 @@ export class KeywordList extends ContentBase {
 
     findKeywords(keywords: Keyword[]) {
         keywords.forEach(k => { if (this.childIds.indexOf(k.id) >= 0) this.keywords.push(k) });
+    }
+
+    sortChildItems() {
+        this.helperToSortChildItems(this.keywords);
     }
 }
 
@@ -127,7 +172,7 @@ export class CardExampleComparison extends Card {
         this.image_positive = new Image(null, this.extractIdFromMap(imgPos, 'en-US'));
         this.image_negative = new Image(null, this.extractIdFromMap(imgNeg, 'en-US'));
     }
-    
+
     findImages(images: any[]) {
         images.forEach(i => {
             if (i.id == this.image_positive.id) this.image_positive = i;
@@ -156,7 +201,7 @@ export class CardRulesComparison extends Card {
             if (this.dontIds.findIndex(i => i == m.id) >= 0) this.donts.push(m)
         });
     }
-    
+
     findImage(images: any[]) {
         images.forEach(i => { if (i.id == this.image.id) this.image = i })
     }
@@ -177,7 +222,7 @@ export class CardItemsExplanation extends Card {
     findMediaChildren(media: MediaItem[]) {
         media.forEach(m => { if (this.childIds.findIndex(c => c == m.id) >= 0) this.items.push(m) });
     }
-    
+
     findImage(images: any[]) {
         images.forEach(i => { if (i.id == this.image.id) this.image = i })
     }
@@ -196,7 +241,7 @@ export class CardUnitComparison extends Card {
     findUnitChildren(unit: UnitComparison[]) {
         unit.forEach(u => { if (this.childIds.findIndex(c => c == u.id) >= 0) this.units.push(u) });
     }
-    
+
     findImage(images: any[]) {
         images.forEach(i => { if (i.id == this.image.id) this.image = i })
     }
@@ -295,7 +340,7 @@ export class MediaItem extends ContentBase {
     }
 
     get useIcon():boolean { return this.iconClass != null; }
-    
+
     findImage(images: any[]) {
         images.forEach(i => { if (i.id == this.iconImage.id) this.iconImage = i })
     }

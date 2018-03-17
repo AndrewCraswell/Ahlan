@@ -18,7 +18,7 @@ export class ContentProvider {
         if (this.contentReady) {
             return new Promise<Category[]>(() => this.categories );
         }
-        
+
         return this.updateContent();
     }
 
@@ -95,7 +95,7 @@ export class ContentProvider {
                         tempTopics.push(new Topic(element));
                     }
                     break;
-                
+
                 // Keywords
                 case ContentTypes.KeywordItem:
                     keywords.push(new Keyword(element));
@@ -214,12 +214,10 @@ export class ContentProvider {
                     + ` ${tempMedia.length} Media, ${tempUnitPair.length} UnitPairs, ${tempUnits.length} Units`);
 
         // Link Units to the UnitComparisons that reference them
-        tempUnitPair.forEach(pair => {
-            pair.findUnitChildren(tempUnits);
-        });
+        tempUnitPair.forEach(pair => pair.findUnitChildren(tempUnits));
 
         // Link supporting content to their Cards
-        tempMedia.forEach(media => { media.findImage(tempImages) });
+        tempMedia.forEach(media => media.findImage(tempImages));
 
         tempCards.forEach(card => {
             switch (card.constructor.name) {
@@ -254,55 +252,22 @@ export class ContentProvider {
         });
 
         // Loop through all Card content and link each to the Topic that owns it
-        // TODO: This needs a function in Topic
-        var cardToLink = tempCards.pop();
-        while (cardToLink != null) {
-            let length = tempTopics.length;
-            for (let i = 0; i < length; i++) {
-                let top = tempTopics[i];
-                let numCards = top.childIds.length;
-                var foundTop = false;
-                for (let j = 0; j < numCards; j++) {
-                    if (top.childIds[j] == cardToLink.id) {
-                        top.cards.push(cardToLink);
-                        cardToLink.parent = top;
-                        foundTop = true;
-                        break;
-                    }
-                }
-                if (foundTop) break;
-            }
-            cardToLink = tempCards.pop();
-        }
+        tempCards.forEach(c => tempTopics.forEach(t => t.linkToChildAsParent(c)));
 
         // link Keyword lists to parent Category
         newContent.forEach(cat => cat.findKeywords(keywordLists));
 
         // Loop through all Topic content and link each to the Category that owns it
-        // TODO: This needs a function in Category
-        var topToLink = tempTopics.pop();
-        while (topToLink != null) {
-            let length = newContent.length;
-            for (let i = 0; i < length; i++) {
-                let cat = newContent[i];
-                let numArts = cat.childIds.length;
-                var foundCat = false;
-                for (let j = 0; j < numArts; j++) {
-                    if (cat.childIds[j] == topToLink.id) {
-                        cat.topics.push(topToLink);
-                        topToLink.parent = cat;
-                        foundCat = true;
-                        break;
-                    }
-                }
-                if (foundCat) break;
-            }
-            topToLink = tempTopics.pop();
-        }
+        tempTopics.forEach(t => {
+            t.sortChildItems();
+            newContent.forEach(c => c.linkToChildAsParent(t));
+        });
 
         newContent.sort((a, b) => {
             return this.categorySortOrder.indexOf(a.id) - this.categorySortOrder.indexOf(b.id);
         });
+
+        newContent.forEach(cat => cat.sortChildItems());
 
         this.contentReady = true;
         return newContent;
@@ -341,7 +306,7 @@ export class ContentProvider {
                         next();
                     }
                 });
-                
+
             }
         });
     }
