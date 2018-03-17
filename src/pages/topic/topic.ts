@@ -67,12 +67,12 @@ export class TopicPage {
 
     // Resolve the correct component to render each article data
     for (var i = 0; i < articles.length; i++) {
-      var templateName: string = articles[0].template;
+      var templateName: string = articles[i].template;
       console.log("Found template name: ", templateName);
       articles[i].component = this.createComponent(templateName, this.articlesContainer);
 
       if (articles[i].component && articles[i].component.instance) {
-        articles[i].component.instance.article = articles[0].card;
+        articles[i].component.instance.article = articles[i].card;
         console.log("Successfully created component for the template", templateName);
       } else {
         console.warn('Unable to map Article to the', templateName, 'component. No such component exists.');
