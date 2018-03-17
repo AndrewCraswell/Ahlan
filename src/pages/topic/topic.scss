@@ -135,4 +135,98 @@ topic {
             }
         }
     }
+
+    .card-example-comparison {
+        .example {
+            display: inline-block;
+            width: 50%;
+            position: relative;
+        
+            & > i {
+                position: absolute;
+                right: 0px;
+                color: #fff;
+                padding: 6px;
+                border-radius:50%;
+                background-color: #62AD10;
+                margin: 6px; 
+            }
+
+            &:last-child > i {
+                top: 0;
+            }
+        }
+
+        .card-content {
+            text-align: center;
+
+            span:first-child {
+                display: block;
+                margin-bottom: 1em;
+            }
+
+            span:last-child {
+                display: block;
+            }
+        }
+    }
+
+    .card-unit-comparison {
+        .card-content {
+            text-align: center;
+
+            span:first-child {
+                display: block;
+                margin-bottom: 1em;
+            }
+
+            span:last-child {
+                display: block;
+            }
+        }
+
+        ion-grid {
+            margin-top: 1em;
+            font-weight: 900;
+        }
+
+        ion-col {
+            margin: 2px;
+            p {
+                text-align: center;
+                color: #000;
+            }
+        }
+        .first-col {
+            background-color: #ededed;
+        }
+
+        .second-col {
+            background-color: #dedede;
+        }
+    }
+
+    .card-month {
+        .card-content {
+            text-align: center;
+
+            span:first-child {
+                display: block;
+                margin-bottom: 1em;
+            }
+
+            span:last-child {
+                display: block;
+            }
+        }
+
+        ion-col {
+            background-color: #ededed;
+
+            p {
+                text-align: center;
+                color: #000;
+            }
+        }
+    }
 }
