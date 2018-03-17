@@ -6,7 +6,10 @@ import { MyApp } from './app.component';
 import { TopicPage } from '../pages/topic/topic';
 import { CategoryListPage } from '../pages/category-list/category-list';
 import { CategoryPage } from '../pages/category/category';
-import { CardText } from '../components/card-text/CardText';
+import { CardTextBlock } from '../components/CardTextBlock/CardTextBlock';
+import { CardImageTextBlock } from '../components/CardImageTextBlock/CardImageTextBlock';
+import { CardItemsExplanation } from '../components/CardItemsExplanation/CardItemsExplanation';
+import { CardRulesComparison } from '../components/CardRulesComparison/CardRulesComparison';
 import { CardMonth } from '../components/CardMonth/CardMonth';
 import { CardUnitComparison } from '../components/CardUnitComparison/CardUnitComparison';
 
@@ -32,7 +35,10 @@ const cloudSettings: CloudSettings = {
     TopicPage,
     CategoryListPage,
     CategoryPage,
-    CardText,
+    CardTextBlock,
+    CardImageTextBlock,
+    CardItemsExplanation,
+    CardRulesComparison,
     CardMonth,
     CardUnitComparison
   ],
@@ -52,7 +58,10 @@ const cloudSettings: CloudSettings = {
     TopicPage,
     CategoryListPage,
     CategoryPage,
-    CardText,
+    CardTextBlock,
+    CardImageTextBlock,
+    CardItemsExplanation,
+    CardRulesComparison,
     CardMonth,
     CardUnitComparison
   ],
