@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as Content from "../../model/appContent";
 
 
 @Component({
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: 'CardItemsExplanation.html'
 })
 export class CardItemsExplanation {
+  article: Content.CardItemsExplanation;
 
   constructor() {
 
