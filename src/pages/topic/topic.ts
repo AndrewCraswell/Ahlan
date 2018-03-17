@@ -1,16 +1,18 @@
-import { Component, Type, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, Type, ViewContainerRef, ComponentFactoryResolver, ViewChild } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 import * as Content from "../../model/appContent";
 import { Platform } from 'ionic-angular/platform/platform';
 
-type ArticleArray = Array<{title: string, translation: string, template: string, card: Content.Card}>;
+type ArticleArray = Array<{title: string, translation: string, template: string, card: Content.Card, component: any}>;
 
 @Component({
   selector: 'topic',
   templateUrl: 'topic.html'
 })
 export class TopicPage {
+  @ViewChild("articlesContainer", { read: ViewContainerRef }) articlesContainer;
+
   selectedTopic: any;
   topic: Content.Topic;
   articles: ArticleArray;
@@ -21,7 +23,6 @@ export class TopicPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     platform: Platform,
-    private vcRef: ViewContainerRef,
     private resolver: ComponentFactoryResolver) {
 
     // If we navigated to this page, we will have a topic available as a nav param
@@ -33,9 +34,11 @@ export class TopicPage {
   }
 
   public ngOnDestroy(){
-    if (this.componentRef) {
-        this.componentRef.destroy();
-        this.componentRef = null;
+    for (var i = 0; i < this.articles.length; i++) {
+      if (this.articles[0].component) {
+        this.articles[0].component.destroy();
+        this.articles[0].component = null;
+      }
     }
   }
 
@@ -52,6 +55,7 @@ export class TopicPage {
         translation: cards[i].title['en-US'],
         template: cards[i].constructor.name,
         card: cards[i],
+        component: undefined
       });
     }
 
@@ -59,17 +63,33 @@ export class TopicPage {
   }
 
   private resolveArticleComponents(articles: ArticleArray) {
-    var comp: string = 'CardText';
+    this.articlesContainer.clear(); 
 
     // Resolve the correct component to render each article data
     for (var i = 0; i < articles.length; i++) {
-      var factories = Array.from(this.resolver['_factories'].keys());
-      var factoryClass = <Type<any>>factories.find((x: any) => x.name === comp);
-      const factory = this.resolver.resolveComponentFactory(factoryClass);
-      const compRef = this.vcRef.createComponent(factory);
-      compRef.instance.article = articles[0].card;
+      var templateName: string = articles[0].template;
+      articles[i].component = this.createComponent(templateName);
 
-      // TODO: Render the component on the page
+      if (articles[i].component && articles[i].component.instance) {
+        articles[i].component.instance.article = articles[0].card;
+      } else {
+        console.log('Unable to map Article to the', templateName, 'component. No such component exists.');
+      }
     }
+  }
+
+  private createComponent(templateName: string) {
+    var factories = Array.from(this.resolver['_factories'].keys());
+    var factoryClass = <Type<any>>factories.find((x: any) => x.name === templateName);
+    
+    if (factoryClass) {
+      const factory = this.resolver.resolveComponentFactory(factoryClass);
+
+      if (factory) {
+        return this.articlesContainer.createComponent(factory);
+      }
+    }
+
+    return undefined;
   }
 }

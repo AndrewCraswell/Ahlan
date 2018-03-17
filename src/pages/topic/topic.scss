@@ -141,20 +141,20 @@ topic {
             display: inline-block;
             width: 50%;
             position: relative;
-        
+
             & > i {
                 position: absolute;
-                right: 0px;
+                right: 0;
                 color: #fff;
                 padding: 6px;
-                border-radius:50%;
-                background-color: #62AD10;
-                margin: 6px; 
+                border-radius: 50%;
+                background-color: #62ad10;
+                margin: 6px;
                 top: 0;
             }
-            &:nth-child(2)> i{
-                background-color: #FF3154;
 
+            &:nth-child(2) > i {
+                background-color: #ff3154;
             }
         }
 
@@ -193,11 +193,13 @@ topic {
 
         ion-col {
             margin: 2px;
+
             p {
                 text-align: center;
                 color: #000;
             }
         }
+
         .first-col {
             background-color: #ededed;
         }
